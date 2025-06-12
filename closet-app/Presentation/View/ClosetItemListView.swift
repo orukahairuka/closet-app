@@ -11,21 +11,27 @@ import SwiftData
 struct ClosetItemListView: View {
     @Query private var items: [ClosetItem]
 
-    // 2列レイアウト
     let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible())
     ]
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(items) { item in
-                    ClosetCardView(item: item)
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(items) { item in
+                        NavigationLink {
+                            ClosetItemDetailView(item: item)
+                        } label: {
+                            ClosetCardView(item: item)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
+                .padding()
             }
-            .padding()
+            .navigationTitle("登録アイテム")
         }
-        .navigationTitle("登録アイテム")
     }
 }
