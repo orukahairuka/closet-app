@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WeatherKit
 
 @MainActor
 final class WeatherViewModel: ObservableObject {
