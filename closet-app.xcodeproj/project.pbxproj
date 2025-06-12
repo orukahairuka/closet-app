@@ -44,7 +44,6 @@
 				Domain/Protocol/WeatherRepositoryProtocol.swift,
 				Domain/Repository/WeatherRepository.swift,
 				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
-				Presentation/View/ClosesSelectView.swift,
 				Presentation/View/WeatherView.swift,
 				Presentation/ViewModel/WeatherViewModel.swift,
 			);
@@ -55,16 +54,14 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				closet_appApp.swift,
+				Domain/Entity/WeatherInfo.swift,
+				Domain/Protocol/WeatherRepositoryProtocol.swift,
+				Domain/Repository/WeatherRepository.swift,
+				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
+				Presentation/View/WeatherView.swift,
+				Presentation/ViewModel/WeatherViewModel.swift,
 			);
 			target = 3BB8D3D82DF9B07B00D4F900 /* closet-appTests */;
-		};
-		3BDE86A12DFACFC200A84A6A /* Exceptions for "closet-app" folder in "closet-appUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Presentation/View/ClosesSelectView.swift,
-				Presentation/View/WeatherView.swift,
-			);
-			target = 3BB8D3E22DF9B07B00D4F900 /* closet-appUITests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -74,7 +71,6 @@
 			exceptions = (
 				3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */,
 				3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */,
-				3BDE86A12DFACFC200A84A6A /* Exceptions for "closet-app" folder in "closet-appUITests" target */,
 			);
 			path = "closet-app";
 			sourceTree = "<group>";
