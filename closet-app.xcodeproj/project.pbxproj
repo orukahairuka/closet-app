@@ -29,9 +29,34 @@
 		3BB8D3E32DF9B07B00D4F900 /* closet-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "closet-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				closet_appApp.swift,
+				ContentView.swift,
+			);
+			target = 3BB8D3CB2DF9B07600D4F900 /* closet-app */;
+		};
+		3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				closet_appApp.swift,
+				ContentView.swift,
+			);
+			target = 3BB8D3D82DF9B07B00D4F900 /* closet-appTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3BB8D3CE2DF9B07600D4F900 /* closet-app */ = {
+		3B71E04C2DF9E8F900151423 /* closet-app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */,
+				3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */,
+			);
 			path = "closet-app";
 			sourceTree = "<group>";
 		};
@@ -75,7 +100,7 @@
 		3BB8D3C32DF9B07600D4F900 = {
 			isa = PBXGroup;
 			children = (
-				3BB8D3CE2DF9B07600D4F900 /* closet-app */,
+				3B71E04C2DF9E8F900151423 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 				3BB8D3E62DF9B07B00D4F900 /* closet-appUITests */,
 				3BB8D3CD2DF9B07600D4F900 /* Products */,
@@ -107,9 +132,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				3BB8D3CE2DF9B07600D4F900 /* closet-app */,
-			);
 			name = "closet-app";
 			packageProductDependencies = (
 			);
@@ -131,6 +153,7 @@
 				3BB8D3DB2DF9B07B00D4F900 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				3B71E04C2DF9E8F900151423 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 			);
 			name = "closet-appTests";
@@ -195,6 +218,9 @@
 			);
 			mainGroup = 3BB8D3C32DF9B07600D4F900;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
 			projectDirPath = "";
@@ -558,6 +584,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 3BB8D3C42DF9B07600D4F900 /* Project object */;
 }
