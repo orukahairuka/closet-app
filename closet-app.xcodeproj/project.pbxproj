@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BDE869C2DFACF0000A84A6A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDE869B2DFACF0000A84A6A /* Parchment */; };
-		3BDE869E2DFACF0400A84A6A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDE869D2DFACF0400A84A6A /* Alamofire */; };
+		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,50 +33,9 @@
 		3BB8D3E32DF9B07B00D4F900 /* closet-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "closet-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				closet_appApp.swift,
-				Domain/Entity/WeatherInfo.swift,
-				Domain/Protocol/WeatherRepositoryProtocol.swift,
-				Domain/Repository/WeatherRepository.swift,
-				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
-				Presentation/View/AddItemView.swift,
-				Presentation/View/ClosesSelectView.swift,
-				Presentation/View/HomeView.swift,
-				Presentation/View/WeatherView.swift,
-				Presentation/ViewModel/WeatherViewModel.swift,
-			);
-			target = 3BB8D3CB2DF9B07600D4F900 /* closet-app */;
-		};
-		3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Assets.xcassets,
-				closet_appApp.swift,
-				Domain/Entity/WeatherInfo.swift,
-				Domain/Protocol/WeatherRepositoryProtocol.swift,
-				Domain/Repository/WeatherRepository.swift,
-				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
-				Presentation/View/AddItemView.swift,
-				Presentation/View/ClosesSelectView.swift,
-				Presentation/View/HomeView.swift,
-				Presentation/View/WeatherView.swift,
-				Presentation/ViewModel/WeatherViewModel.swift,
-			);
-			target = 3BB8D3D82DF9B07B00D4F900 /* closet-appTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3B71E04C2DF9E8F900151423 /* closet-app */ = {
+		3BB8D3CE2DF9B07600D4F900 /* closet-app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */,
-				3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */,
-			);
 			path = "closet-app";
 			sourceTree = "<group>";
 		};
@@ -98,8 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BDE869C2DFACF0000A84A6A /* Parchment in Frameworks */,
-				3BDE869E2DFACF0400A84A6A /* Alamofire in Frameworks */,
+				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,13 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		120138462DFAF27D00659C2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3BB8D3C32DF9B07600D4F900 = {
 			isa = PBXGroup;
 			children = (
-				3B71E04C2DF9E8F900151423 /* closet-app */,
+				3BB8D3CE2DF9B07600D4F900 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 				3BB8D3E62DF9B07B00D4F900 /* closet-appUITests */,
-				3BDE869A2DFACF0000A84A6A /* Frameworks */,
+				120138462DFAF27D00659C2A /* Frameworks */,
 				3BB8D3CD2DF9B07600D4F900 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -139,13 +103,6 @@
 				3BB8D3E32DF9B07B00D4F900 /* closet-appUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		3BDE869A2DFACF0000A84A6A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,10 +120,12 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				3BB8D3CE2DF9B07600D4F900 /* closet-app */,
+			);
 			name = "closet-app";
 			packageProductDependencies = (
-				3BDE869B2DFACF0000A84A6A /* Parchment */,
-				3BDE869D2DFACF0400A84A6A /* Alamofire */,
+				120138472DFAF27D00659C2A /* Parchment */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -186,7 +145,6 @@
 				3BB8D3DB2DF9B07B00D4F900 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				3B71E04C2DF9E8F900151423 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 			);
 			name = "closet-appTests";
@@ -252,8 +210,7 @@
 			mainGroup = 3BB8D3C32DF9B07600D4F900;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */,
-				3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */,
+				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -455,13 +412,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "closet-app/closet-app.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "情報取得のために現在地を使用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -485,13 +440,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "closet-app/closet-app.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "情報取得のために現在地を使用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -624,17 +577,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.10.2;
-			};
-		};
-		3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rechsteiner/Parchment?tab=readme-ov-file";
+			repositoryURL = "https://github.com/rechsteiner/Parchment";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -643,15 +588,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3BDE869B2DFACF0000A84A6A /* Parchment */ = {
+		120138472DFAF27D00659C2A /* Parchment */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */;
+			package = 120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
-		};
-		3BDE869D2DFACF0400A84A6A /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

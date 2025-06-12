@@ -7,22 +7,26 @@
 
 import SwiftUI
 
+enum HomeNavigation: Hashable {
+    case addItem
+}
+
 struct HomeView: View {
-    @State private var isPresentingAddItem = false
+    @State private var navigationPath = NavigationPath()
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack(alignment: .bottomTrailing) {
                 VStack {
                     WeatherView()
                         .padding(.top, 50)
                     CloseSelectView()
                         .padding(.top, 20)
+                    ClosetItemListView()
                 }
 
-                // Floating Action Button
                 Button(action: {
-                    isPresentingAddItem = true
+                    navigationPath.append(HomeNavigation.addItem)
                 }) {
                     Image(systemName: "plus")
                         .font(.system(size: 24))
@@ -32,8 +36,11 @@ struct HomeView: View {
                         .shadow(radius: 5)
                 }
                 .padding()
-                .sheet(isPresented: $isPresentingAddItem) {
-                    AddItemView()
+            }
+            .navigationDestination(for: HomeNavigation.self) { route in
+                switch route {
+                case .addItem:
+                    AddClosetItemView()
                 }
             }
         }
