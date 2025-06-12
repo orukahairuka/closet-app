@@ -10,6 +10,8 @@ import SwiftData
 
 struct AddClosetItemView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss  // ← これを追加！
+
     @State private var selectedCategory: Category = .tops
     @State private var selectedSeason: Season = .spring
     @State private var image: UIImage? = nil
@@ -48,7 +50,7 @@ struct AddClosetItemView: View {
                 .autocapitalization(.none)
 
             TextField("メモ", text: $memo)
-            
+
             Button("保存") {
                 let data = image?.jpegData(compressionQuality: 0.8)
                 let item = ClosetItem(
@@ -59,6 +61,8 @@ struct AddClosetItemView: View {
                     memo: memo.isEmpty ? nil : memo
                 )
                 context.insert(item)
+                print("✅ 保存したアイテム: (item.category), (item.season)")
+                dismiss()
             }
         }
         .sheet(isPresented: $showImagePicker) {
