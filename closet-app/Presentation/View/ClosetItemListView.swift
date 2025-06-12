@@ -11,24 +11,27 @@ import SwiftData
 struct ClosetItemListView: View {
     @Query private var items: [ClosetItem]
 
-    var body: some View {
-        List(items) { item in
-            HStack {
-                if let data = item.imageData, let uiImage = UIImage(data: data) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
+    let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible())
+    ]
 
-                VStack(alignment: .leading) {
-                    Text(item.category.displayName)
-                    Text(item.season.displayName)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(items) { item in
+                        NavigationLink {
+                            ClosetItemDetailView(item: item)
+                        } label: {
+                            ClosetCardView(item: item)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
+                .padding()
             }
+            .navigationTitle("登録アイテム")
         }
-        .navigationTitle("登録アイテム")
     }
 }
