@@ -13,17 +13,8 @@ struct WeatherView: View {
     @State private var isVisible = false
 
     var body: some View {
-        ZStack {
+        VStack {
             if let weather = viewModel.weatherInfo {
-                // 天気に応じた背景
-                LinearGradient(
-                    gradient: Gradient(colors: backgroundColors(for: weather.symbolName)),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-                .animation(.easeInOut, value: weather.symbolName)
-
                 VStack(spacing: 16) {
                     Image(systemName: weather.symbolName)
                         .resizable()
@@ -41,34 +32,25 @@ struct WeatherView: View {
 
                     Text(weather.condition)
                         .font(.title2)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.secondary)
                 }
-                .padding()
-                .background(.ultraThinMaterial)
+                .padding(32)
+                .background(.regularMaterial.opacity(0.2))
                 .clipShape(RoundedRectangle(cornerRadius: 32))
-                .shadow(radius: 20)
-                .padding()
+                .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 10)
             } else if viewModel.isLoading {
                 ProgressView("読み込み中...")
             } else if let error = viewModel.errorMessage {
                 Text(error).foregroundColor(.red)
             }
         }
+        .padding() // 全体に少し余白
         .onAppear {
             isVisible = false
             Task {
                 await viewModel.fetch()
                 isVisible = true
             }
-        }
-    }
-
-    private func backgroundColors(for symbol: String) -> [Color] {
-        switch symbol {
-        case "cloud.rain.fill": return [Color.blue.opacity(0.7), Color.gray.opacity(0.5)]
-        case "sun.max.fill": return [Color.orange, Color.yellow]
-        case "cloud.snow.fill": return [Color.white.opacity(0.8), Color.gray.opacity(0.4)]
-        default: return [Color.green.opacity(0.4), Color.blue.opacity(0.3)]
         }
     }
 }
