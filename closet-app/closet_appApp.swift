@@ -11,7 +11,7 @@ import SwiftUI
 struct closet_appApp: App {
     var body: some Scene {
         WindowGroup {
-            WeatherView()
+            HomeView()
         }
     }
 }

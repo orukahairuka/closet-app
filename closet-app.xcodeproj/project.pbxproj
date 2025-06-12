@@ -44,6 +44,9 @@
 				Domain/Protocol/WeatherRepositoryProtocol.swift,
 				Domain/Repository/WeatherRepository.swift,
 				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
+				Presentation/View/AddItemView.swift,
+				Presentation/View/ClosesSelectView.swift,
+				Presentation/View/HomeView.swift,
 				Presentation/View/WeatherView.swift,
 				Presentation/ViewModel/WeatherViewModel.swift,
 			);
@@ -58,6 +61,9 @@
 				Domain/Protocol/WeatherRepositoryProtocol.swift,
 				Domain/Repository/WeatherRepository.swift,
 				Domain/UseCase/FetchCurrentWeatherUseCase.swift,
+				Presentation/View/AddItemView.swift,
+				Presentation/View/ClosesSelectView.swift,
+				Presentation/View/HomeView.swift,
 				Presentation/View/WeatherView.swift,
 				Presentation/ViewModel/WeatherViewModel.swift,
 			);
