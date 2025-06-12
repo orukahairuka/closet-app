@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3BDE869C2DFACF0000A84A6A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDE869B2DFACF0000A84A6A /* Parchment */; };
+		3BDE869E2DFACF0400A84A6A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDE869D2DFACF0400A84A6A /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3BB8D3DA2DF9B07B00D4F900 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -34,8 +39,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
-				closet_appApp.swift,
-				ContentView.swift,
+				Domain/closet_appApp.swift,
+				Presentation/View/ClosesSelectView.swift,
+				Presentation/View/WeatherView.swift,
 			);
 			target = 3BB8D3CB2DF9B07600D4F900 /* closet-app */;
 		};
@@ -43,10 +49,17 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
-				closet_appApp.swift,
-				ContentView.swift,
+				Domain/closet_appApp.swift,
 			);
 			target = 3BB8D3D82DF9B07B00D4F900 /* closet-appTests */;
+		};
+		3BDE86A12DFACFC200A84A6A /* Exceptions for "closet-app" folder in "closet-appUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Presentation/View/ClosesSelectView.swift,
+				Presentation/View/WeatherView.swift,
+			);
+			target = 3BB8D3E22DF9B07B00D4F900 /* closet-appUITests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -56,6 +69,7 @@
 			exceptions = (
 				3B71E0502DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-app" target */,
 				3B71E0512DF9E8F900151423 /* Exceptions for "closet-app" folder in "closet-appTests" target */,
+				3BDE86A12DFACFC200A84A6A /* Exceptions for "closet-app" folder in "closet-appUITests" target */,
 			);
 			path = "closet-app";
 			sourceTree = "<group>";
@@ -77,6 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BDE869C2DFACF0000A84A6A /* Parchment in Frameworks */,
+				3BDE869E2DFACF0400A84A6A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +119,7 @@
 				3B71E04C2DF9E8F900151423 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 				3BB8D3E62DF9B07B00D4F900 /* closet-appUITests */,
+				3BDE869A2DFACF0000A84A6A /* Frameworks */,
 				3BB8D3CD2DF9B07600D4F900 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,6 +132,13 @@
 				3BB8D3E32DF9B07B00D4F900 /* closet-appUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3BDE869A2DFACF0000A84A6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +158,8 @@
 			);
 			name = "closet-app";
 			packageProductDependencies = (
+				3BDE869B2DFACF0000A84A6A /* Parchment */,
+				3BDE869D2DFACF0400A84A6A /* Alamofire */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -220,6 +246,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -594,7 +621,28 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rechsteiner/Parchment?tab=readme-ov-file";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3BDE869B2DFACF0000A84A6A /* Parchment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BDE86972DFACD7300A84A6A /* XCRemoteSwiftPackageReference "Parchment" */;
+			productName = Parchment;
+		};
+		3BDE869D2DFACF0400A84A6A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BDE86962DFACCA400A84A6A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3BB8D3C42DF9B07600D4F900 /* Project object */;
 }
