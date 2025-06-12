@@ -12,6 +12,7 @@ struct ClosetCardView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
+            // 画像
             if let data = item.imageData, let uiImage = UIImage(data: data) {
                 Image(uiImage: uiImage)
                     .resizable()
@@ -26,21 +27,26 @@ struct ClosetCardView: View {
                     .overlay(Text("No Image").foregroundColor(.gray))
             }
 
+            // カテゴリ・季節
             Text(item.category.displayName)
                 .font(.headline)
             Text(item.season.displayName)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
+            // メモ（省略表示）
             if let memo = item.memo {
                 Text(memo)
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .lineLimit(2)
+                    .truncationMode(.tail)
             }
 
+            Spacer() // 下にスペース追加で高さ調整
         }
         .padding()
+        .frame(height: 220) // ← 高さを統一
         .background(.ultraThinMaterial)
         .cornerRadius(20)
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 3)
