@@ -11,12 +11,27 @@ import SwiftData
 struct ClosetItemDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-
-    @Bindable var item: ClosetItem
-
     @State private var showImagePicker = false
-    @State private var newImage: UIImage?
-    @State private var urlText: String = ""
+    @State private var showDeleteConfirm = false
+
+    let item: ClosetItem  // ← 直接受け取る
+
+    @StateObject private var viewModel: ClosetItemDetailViewModel
+
+
+    init(item: ClosetItem) {
+        self.item = item
+        _viewModel = StateObject(wrappedValue: ClosetItemDetailViewModel())
+    }
+
+
+    private func configureViewModelIfNeeded() {
+        if viewModel.item.id != item.id {
+            let repository = ClosetItemRepository(context: context)
+            let deleteUseCase = DeleteClosetItemUseCase(repository: repository)
+            viewModel.setUp(item: item, context: context, deleteUseCase: deleteUseCase)
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -33,12 +48,12 @@ struct ClosetItemDetailView: View {
                             .frame(height: 180)
                             .shadow(radius: 4)
 
-                        if let newImage = newImage {
+                        if let newImage = viewModel.newImage {
                             Image(uiImage: newImage)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 150)
-                        } else if let data = item.imageData, let uiImage = UIImage(data: data) {
+                        } else if let data = viewModel.item.imageData, let uiImage = UIImage(data: data) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFit()
@@ -65,7 +80,7 @@ struct ClosetItemDetailView: View {
                         .font(.title3)
                         .fontWeight(.semibold)
                         .padding(.bottom, 4)
-                    Picker("カテゴリ", selection: $item.category) {
+                    Picker("カテゴリ", selection: $viewModel.item.category) {
                         ForEach(Category.allCases) { category in
                             Text(category.displayName).tag(category)
                         }
@@ -75,7 +90,7 @@ struct ClosetItemDetailView: View {
                         .font(.title3)
                         .fontWeight(.semibold)
                         .padding(.bottom, 4)
-                    Picker("季節", selection: $item.season) {
+                    Picker("季節", selection: $viewModel.item.season) {
                         ForEach(Season.allCases) { season in
                             Text(season.displayName).tag(season)
                         }
@@ -89,16 +104,10 @@ struct ClosetItemDetailView: View {
                         .fontWeight(.semibold)
                         .padding(.bottom, 4)
 
-                    TextField("https://example.com", text: Binding(
-                        get: { item.productURL?.absoluteString ?? "" },
-                        set: {
-                            item.productURL = URL(string: $0)
-                            urlText = $0
-                        }
-                    ))
-                    .textFieldStyle(.roundedBorder)
+                    TextField("https://example.com", text: $viewModel.urlText)
+                        .textFieldStyle(.roundedBorder)
 
-                    if let url = item.productURL, !url.absoluteString.isEmpty {
+                    if let url = viewModel.item.productURL, !url.absoluteString.isEmpty {
                         Link("▶︎ 商品ページを開く", destination: url)
                             .font(.callout)
                             .foregroundColor(.blue)
@@ -111,20 +120,17 @@ struct ClosetItemDetailView: View {
                         .font(.subheadline)
 
                     TextField("お気に入りポイントなど", text: Binding(
-                        get: { item.memo ?? "" },
-                        set: { item.memo = $0 }
+                        get: { viewModel.item.memo ?? "" },
+                        set: { viewModel.item.memo = $0 }
                     ))
                     .textFieldStyle(.roundedBorder)
                 }
 
-                // 保存ボタン
-                Button(action: {
-                    if let newImage = newImage {
-                        item.imageData = newImage.jpegData(compressionQuality: 0.8)
-                    }
-                    try? context.save()
+                /// 保存ボタン
+                Button {
+                    viewModel.saveChanges()
                     dismiss()
-                }) {
+                } label: {
                     Text("保存する")
                         .bold()
                         .frame(maxWidth: .infinity)
@@ -133,22 +139,37 @@ struct ClosetItemDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }
-                .padding(.top, 20)
+
+                // 削除ボタン
+                Button(role: .destructive) {
+                    showDeleteConfirm = true
+                } label: {
+                    Text("削除する")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red.opacity(0.8))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .confirmationDialog("本当に削除しますか？", isPresented: $showDeleteConfirm) {
+                    Button("削除する", role: .destructive) {
+                        do {
+                            try viewModel.deleteItem()
+                            dismiss()
+                        } catch {
+                            print("❌ 削除失敗: \(error)")
+                        }
+                    }
+                    Button("キャンセル", role: .cancel) { }
+                }
 
             }
             .padding()
         }
         .navigationTitle("アイテム編集")
         .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $newImage)
+            ImagePicker(image: $viewModel.newImage)
         }
-        .background(
-            LinearGradient(
-                colors: [Color.white.opacity(0.9), Color.green.opacity(0.1)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-        )
     }
 }
