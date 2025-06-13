@@ -64,9 +64,18 @@ struct CloseSelectView: View {
     }
 
     private func categoryContent(for category: Category) -> some View {
-        let filteredItems = items.filter { $0.category == category }
+        let filteredItems = items.filter {
+            print("item.category = \($0.category), selected = \(category)")
+            return $0.category == category
+        }
 
         return ScrollView {
+            if filteredItems.isEmpty {
+                Text("このカテゴリにはアイテムがありません")
+                    .foregroundColor(.gray)
+                    .padding()
+            }
+
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredItems) { item in
                     NavigationLink(destination: ClosetItemDetailView(item: item)) {
@@ -78,6 +87,7 @@ struct CloseSelectView: View {
             .padding()
         }
     }
+
 
     private func categoryIcon(for category: Category) -> String {
         switch category {

@@ -171,5 +171,11 @@ struct ClosetItemDetailView: View {
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $viewModel.newImage)
         }
+        .onAppear {
+            print("✅ DetailView appeared")
+
+            configureViewModelIfNeeded()
+        }
+
     }
 }

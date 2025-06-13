@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-class ClosetItemModel {
+class ClosetItemModel: Identifiable {
     var id: UUID
     var imageData: Data?
     var category: Category
