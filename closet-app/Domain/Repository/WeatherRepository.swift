@@ -13,10 +13,10 @@ final class WeatherRepository: WeatherRepositoryProtocol {
     private let service = WeatherService()
     private let location = CLLocation(latitude: 35.663613, longitude: 139.732293) // 六本木
 
-    func fetchCurrentWeather() async throws -> WeatherInfo {
+    func fetchCurrentWeather() async throws -> WeatherEntity {
         let weather = try await service.weather(for: location)
 
-        return WeatherInfo(
+        return WeatherEntity(
             temperature: weather.currentWeather.temperature.value,
             condition: weather.currentWeather.condition.description,
             symbolName: weather.currentWeather.symbolName

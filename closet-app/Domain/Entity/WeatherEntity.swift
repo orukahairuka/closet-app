@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherInfo {
+struct WeatherEntity {
     let temperature: Double
     let condition: String
     let symbolName: String

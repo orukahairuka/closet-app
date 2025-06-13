@@ -14,7 +14,7 @@ final class FetchCurrentWeatherUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> WeatherInfo {
+    func execute() async throws -> WeatherEntity {
         try await repository.fetchCurrentWeather()
     }
 }
