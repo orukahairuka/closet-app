@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ClosetItemListView: View {
-    @Query private var items: [ClosetItem]
+    @Query private var items: [ClosetItemModel]
 
     let columns = [
         GridItem(.flexible(), spacing: 16),

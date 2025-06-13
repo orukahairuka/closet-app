@@ -14,12 +14,12 @@ struct ClosetItemDetailView: View {
     @State private var showImagePicker = false
     @State private var showDeleteConfirm = false
 
-    let item: ClosetItem  // ← 直接受け取る
+    let item: ClosetItemModel  // ← 直接受け取る
 
     @StateObject private var viewModel: ClosetItemDetailViewModel
 
 
-    init(item: ClosetItem) {
+    init(item: ClosetItemModel) {
         self.item = item
         _viewModel = StateObject(wrappedValue: ClosetItemDetailViewModel())
     }

@@ -10,7 +10,7 @@ import Parchment
 import SwiftData
 
 struct CloseSelectView: View {
-    @Query private var items: [ClosetItem]
+    @Query private var items: [ClosetItemModel]
     @State private var selectedCategory: Category = .tops  // デフォルト値を設定
 
     private let columns = [

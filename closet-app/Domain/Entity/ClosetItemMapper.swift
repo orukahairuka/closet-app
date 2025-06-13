@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ClosetItem {
+extension ClosetItemModel {
     func toEntity() -> ClosetItemEntity {
         ClosetItemEntity(
             id: self.id,
@@ -21,8 +21,9 @@ extension ClosetItem {
 }
 
 extension ClosetItemEntity {
-    func toModel() -> ClosetItem {
-        ClosetItem(
+    func toModel() -> ClosetItemModel {
+        ClosetItemModel(
+            id: self.id,
             imageData: self.imageData,
             category: self.category,
             season: self.season,

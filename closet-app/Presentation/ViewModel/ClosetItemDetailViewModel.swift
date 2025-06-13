@@ -10,7 +10,7 @@ import SwiftData
 import UIKit
 
 final class ClosetItemDetailViewModel: ObservableObject {
-    @Published var item: ClosetItem
+    @Published var item: ClosetItemModel
     @Published var newImage: UIImage?
     @Published var urlText: String = ""
 
@@ -20,11 +20,11 @@ final class ClosetItemDetailViewModel: ObservableObject {
     // デフォルトの初期化（StateObjectの仮初期化用）
     init() {
         // 仮のデータ（中身は何でもOK）
-        self.item = ClosetItem(category: .tops, season: .spring)
+        self.item = ClosetItemModel(category: .tops, season: .spring)
     }
 
     /// 実際のデータをViewのbody内で注入する
-    func setUp(item: ClosetItem, context: ModelContext, deleteUseCase: DeleteClosetItemUseCaseProtocol) {
+    func setUp(item: ClosetItemModel, context: ModelContext, deleteUseCase: DeleteClosetItemUseCaseProtocol) {
         self.item = item
         self.context = context
         self.deleteUseCase = deleteUseCase

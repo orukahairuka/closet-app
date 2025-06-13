@@ -24,7 +24,7 @@ final class ClosetItemRepository: ClosetItemRepositoryProtocol {
     }
 
     func delete(id: UUID) throws {
-        let fetch = FetchDescriptor<ClosetItem>(predicate: #Predicate { $0.id == id })
+        let fetch = FetchDescriptor<ClosetItemModel>(predicate: #Predicate { $0.id == id })
         if let target = try context.fetch(fetch).first {
             context.delete(target)
             try context.save()
