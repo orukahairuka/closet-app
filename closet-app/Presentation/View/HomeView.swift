@@ -22,7 +22,6 @@ struct HomeView: View {
                         .padding(.top, 50)
                     CloseSelectView()
                         .padding(.top, 20)
-                    ClosetItemListView()
                 }
 
                 Button(action: {
