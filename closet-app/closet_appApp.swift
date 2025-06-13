@@ -13,6 +13,6 @@ struct closet_appApp: App {
         WindowGroup {
             HomeView()
         }
-        .modelContainer(for: ClosetItem.self)
+        .modelContainer(for: ClosetItemModel.self)
     }
 }

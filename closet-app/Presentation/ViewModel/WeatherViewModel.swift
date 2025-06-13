@@ -10,7 +10,7 @@ import WeatherKit
 
 @MainActor
 final class WeatherViewModel: ObservableObject {
-    @Published var weatherInfo: WeatherInfo?
+    @Published var weatherInfo: WeatherEntity?
     @Published var isLoading = false
     @Published var errorMessage: String?
 

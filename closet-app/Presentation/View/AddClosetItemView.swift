@@ -53,7 +53,7 @@ struct AddClosetItemView: View {
 
             Button("保存") {
                 let data = image?.jpegData(compressionQuality: 0.8)
-                let item = ClosetItem(
+                let item = ClosetItemModel(
                     imageData: data,
                     category: selectedCategory,
                     season: selectedSeason,

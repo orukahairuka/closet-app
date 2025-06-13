@@ -8,5 +8,5 @@
 import Foundation
 
 protocol WeatherRepositoryProtocol {
-    func fetchCurrentWeather() async throws -> WeatherInfo
+    func fetchCurrentWeather() async throws -> WeatherEntity
 }

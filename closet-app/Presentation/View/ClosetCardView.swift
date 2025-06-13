@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ClosetCardView: View {
-    let item: ClosetItem
+    let item: ClosetItemModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
