@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3BB8D3DA2DF9B07B00D4F900 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		120138462DFAF27D00659C2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3BB8D3C32DF9B07600D4F900 = {
 			isa = PBXGroup;
 			children = (
 				3BB8D3CE2DF9B07600D4F900 /* closet-app */,
 				3BB8D3DC2DF9B07B00D4F900 /* closet-appTests */,
 				3BB8D3E62DF9B07B00D4F900 /* closet-appUITests */,
+				120138462DFAF27D00659C2A /* Frameworks */,
 				3BB8D3CD2DF9B07600D4F900 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = "closet-app";
 			packageProductDependencies = (
+				120138472DFAF27D00659C2A /* Parchment */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = 3BB8D3C32DF9B07600D4F900;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
 			projectDirPath = "";
@@ -558,6 +575,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rechsteiner/Parchment";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		120138472DFAF27D00659C2A /* Parchment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */;
+			productName = Parchment;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3BB8D3C42DF9B07600D4F900 /* Project object */;
 }
