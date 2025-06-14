@@ -58,7 +58,6 @@ struct AddClosetItemView: View {
                     category: selectedCategory,
                     season: selectedSeason,
                     productURL: URL(string: urlText),
-                    memo: memo.isEmpty ? nil : memo
                 )
                 context.insert(item)
                 dismiss()

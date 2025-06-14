@@ -26,7 +26,6 @@ final class AddClosetItemViewModel: ObservableObject {
             category: selectedCategory,
             season: selectedSeason,
             productURL: URL(string: urlText),
-            memo: memo.isEmpty ? nil : memo
         )
         try useCase.execute(item: entity)
     }

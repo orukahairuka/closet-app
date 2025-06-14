@@ -33,22 +33,33 @@ struct ClosetCardView: View {
             Text(item.season.displayName)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-
-            // メモ（省略表示）
-            if let memo = item.memo {
-                Text(memo)
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .lineLimit(2)
-                    .truncationMode(.tail)
-            }
-
-            Spacer() // 下にスペース追加で高さ調整
         }
         .padding()
-        .frame(height: 220) // ← 高さを統一
+        .frame(height: 220)
         .background(.ultraThinMaterial)
         .cornerRadius(20)
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 3)
     }
+}
+
+#Preview {
+    Group {
+        ClosetCardView(item: .init(
+            id: UUID(),
+            imageData: nil,
+            category: .tops,
+            season: .spring,
+            productURL: nil,
+        ))
+
+        ClosetCardView(item: .init(
+            id: UUID(),
+            imageData: UIImage(named: "sample_shoes")?.pngData(),
+            category: .shoes,
+            season: .summer,
+            productURL: nil,
+        ))
+    }
+    .previewLayout(.sizeThatFits)
+    .padding()
 }

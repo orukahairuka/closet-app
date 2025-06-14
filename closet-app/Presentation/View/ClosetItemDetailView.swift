@@ -113,19 +113,6 @@ struct ClosetItemDetailView: View {
                             .foregroundColor(.blue)
                     }
                 }
-
-                // メモ
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("メモ")
-                        .font(.subheadline)
-
-                    TextField("お気に入りポイントなど", text: Binding(
-                        get: { viewModel.item.memo ?? "" },
-                        set: { viewModel.item.memo = $0 }
-                    ))
-                    .textFieldStyle(.roundedBorder)
-                }
-
                 /// 保存ボタン
                 Button {
                     viewModel.saveChanges()
