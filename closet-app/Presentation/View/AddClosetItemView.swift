@@ -61,7 +61,6 @@ struct AddClosetItemView: View {
                     memo: memo.isEmpty ? nil : memo
                 )
                 context.insert(item)
-                print("✅ 保存したアイテム: (item.category), (item.season)")
                 dismiss()
             }
         }

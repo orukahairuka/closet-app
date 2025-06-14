@@ -5,8 +5,10 @@
 //  Created by 櫻井絵理香 on 2025/06/12.
 //
 import SwiftUI
+import SwiftData
 
 struct WeatherView: View {
+    @Query private var closetItems: [ClosetItemModel] // 追加
     @StateObject private var viewModel = WeatherViewModel(
         useCase: FetchCurrentWeatherUseCase(repository: WeatherRepository())
     )
@@ -38,13 +40,21 @@ struct WeatherView: View {
                 .background(.regularMaterial.opacity(0.2))
                 .clipShape(RoundedRectangle(cornerRadius: 32))
                 .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 10)
+
+                // ✅ CoordinateSuggestionViewを呼び出す
+                CoordinateSuggestionView(
+                    viewModel: CoordinateSuggestionViewModel(
+                        items: closetItems.map { $0.toEntity() },
+                        weather: weather
+                    )
+                )
             } else if viewModel.isLoading {
                 ProgressView("読み込み中...")
             } else if let error = viewModel.errorMessage {
                 Text(error).foregroundColor(.red)
             }
         }
-        .padding() // 全体に少し余白
+        .padding()
         .onAppear {
             isVisible = false
             Task {
