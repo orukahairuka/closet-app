@@ -13,25 +13,24 @@ enum CoordinatePattern {
     case setupShoes
 }
 
-struct SuggestedCoordinate {
+struct SuggestedCoordinate: Identifiable {
+    let id = UUID()
     let items: [ClosetItemEntity]
     let pattern: CoordinatePattern
 }
 
 final class SuggestCoordinateUseCase {
     func execute(
-      items: [ClosetItemEntity],
-      weather: WeatherEntity,
-      isLoose: Bool,
-      maxCount: Int = 10
+        items: [ClosetItemEntity],
+        weather: WeatherEntity,
+        maxCount: Int = 10
     ) -> [SuggestedCoordinate] {
         let temperature = weather.temperature
-        let condition = weather.condition
 
+        // 季節スコアをベースにフィルタ（ゆるめ）
         let filtered = items.filter { item in
-            let seasonMatch = matchSeason(item.season, temperature: temperature, isLoose: isLoose)
-            let rainMatch = condition.contains("雨") ? (item.memo?.contains("防水") ?? false || isLoose) : true
-            return seasonMatch && rainMatch
+            let score = seasonMatchScore(season: item.season, temperature: temperature)
+            return score >= 0.5  // ← ゆるめ（1.0が完全一致、0.0はミスマッチ）
         }
 
         let tops = filtered.filter { $0.category == .tops }
@@ -40,20 +39,19 @@ final class SuggestCoordinateUseCase {
         let setups = filtered.filter { $0.category == .setup }
         let onePieces = filtered.filter { $0.category == .onePiece }
 
-
         var coordinates: [SuggestedCoordinate] = []
 
         for _ in 0..<maxCount {
-            let options: [CoordinatePattern] = [
+            let patterns: [CoordinatePattern] = [
                 (!tops.isEmpty && !bottoms.isEmpty && !shoes.isEmpty) ? .topBottomShoes : nil,
                 (!setups.isEmpty && !shoes.isEmpty) ? .setupShoes : nil,
                 (!onePieces.isEmpty && !shoes.isEmpty) ? .onepieceShoes : nil
             ].compactMap { $0 }
 
-            guard let pattern = options.randomElement() else { continue }
+            guard let selectedPattern = patterns.randomElement() else { continue }
 
             let selectedItems: [ClosetItemEntity] = {
-                switch pattern {
+                switch selectedPattern {
                 case .topBottomShoes:
                     return [tops.randomElement(), bottoms.randomElement(), shoes.randomElement()].compactMap { $0 }
                 case .setupShoes:
@@ -64,32 +62,25 @@ final class SuggestCoordinateUseCase {
             }()
 
             if selectedItems.count >= 2 {
-                coordinates.append(SuggestedCoordinate(items: selectedItems, pattern: pattern))
+                coordinates.append(SuggestedCoordinate(items: selectedItems, pattern: selectedPattern))
             }
         }
 
         return coordinates
     }
 
-
-    private func matchSeason(_ season: Season, temperature: Double, isLoose: Bool) -> Bool {
-        if isLoose {
-            // 緩めの判定
-            switch season {
-            case .winter: return temperature < 12
-            case .autumn: return 8..<20 ~= temperature
-            case .spring: return 12..<28 ~= temperature
-            case .summer: return temperature >= 22
-            }
-        } else {
-            // 厳しめの判定
-            switch season {
-            case .winter: return temperature < 10
-            case .autumn: return 10..<18 ~= temperature
-            case .spring: return 15..<25 ~= temperature
-            case .summer: return temperature >= 25
-            }
+    /// 季節と気温のマッチ度を [0.0, 1.0] で数値化（高いほどその季節に合っている）
+    private func seasonMatchScore(season: Season, temperature: Double) -> Double {
+        let centerTemp: Double
+        switch season {
+        case .winter: centerTemp = 5   // 冬物の中心温度
+        case .autumn: centerTemp = 15
+        case .spring: centerTemp = 20
+        case .summer: centerTemp = 28
         }
-    }
 
+        let diff = abs(centerTemp - temperature)
+        let score = max(0.0, 1.0 - (diff / 15.0))  // 差が15℃以上ならスコア0
+        return score
+    }
 }

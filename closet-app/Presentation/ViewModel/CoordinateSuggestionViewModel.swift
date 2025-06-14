@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import SwiftUI
 
 final class CoordinateSuggestionViewModel: ObservableObject {
-    @Published var suggestedCoordinate: SuggestedCoordinate?
+    @Published var suggestedCoordinates: [SuggestedCoordinate] = []
     @Published var clothingLevel: ClothingLevel = .normal
 
     private let allItems: [ClosetItemEntity]
@@ -22,10 +21,13 @@ final class CoordinateSuggestionViewModel: ObservableObject {
     }
 
     func suggest() {
-        // 服装レベル算出
         clothingLevel = ClothingLevelUseCase().execute(temperature: weather.temperature)
-
-        // コーデ提案
-        suggestedCoordinate = SuggestCoordinateUseCase().execute(items: allItems, weather: weather)
+        suggestedCoordinates = SuggestCoordinateUseCase().execute(
+            items: allItems,
+            weather: weather,
+            maxCount: 10
+        )
+        print("提案されたコーデ数: \(suggestedCoordinates.count)")  // ← ここ
     }
+
 }

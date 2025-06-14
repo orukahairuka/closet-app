@@ -11,41 +11,56 @@ struct CoordinateSuggestionView: View {
     @ObservedObject var viewModel: CoordinateSuggestionViewModel
 
     var body: some View {
-        VStack(spacing: 20) {
-            // 服装レベル表示
+        VStack(alignment: .leading, spacing: 16) {
+            // 服装レベル（ドットグラデ）
             Text("服装レベルは……")
                 .font(.headline)
 
             HStack(spacing: 8) {
                 ForEach(1...5, id: \.self) { level in
                     Circle()
-                        .fill(level <= viewModel.clothingLevel.rawValue ? levelColor(level) : Color.gray.opacity(0.2))
-                        .frame(width: 12, height: 12)
+                        .fill(color(for: level, selected: viewModel.clothingLevel.rawValue))
+                        .frame(width: 14, height: 14)
                 }
             }
 
-            // コーデパターンの表示
-            if let coordinate = viewModel.suggestedCoordinate {
-                Text("提案パターン：\(patternLabel(for: coordinate.pattern))")
-                    .font(.subheadline)
+            // 横スクロールでコーデ提案表示
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 24) {
+                    ForEach(viewModel.suggestedCoordinates) { coordinate in
+                        VStack(spacing: 8) {
+                            Text("コーデパターン: \(patternLabel(for: coordinate.pattern))")
+                                .font(.subheadline)
 
-                // アイテムカード表示
-                ForEach(coordinate.items, id: \.id) { item in
-                    ClosetCardView(item: item.toModel())
+                            ForEach(coordinate.items, id: \.id) { item in
+                                ClosetCardView(item: item)
+                                    .frame(height: 150) // 👈 追加して表示保証
+                            }
+                        }
+                        .padding()
+                        .background(Color.yellow.opacity(0.2)) // 👈 確認用
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .frame(width: 240)
+                    }
+
                 }
-
-            } else {
-                Text("該当するコーデが見つかりませんでした")
-                    .foregroundColor(.gray)
+                .padding(.horizontal)
             }
+
+            // 再提案ボタン
+            Button("別のコーデを提案する") {
+                viewModel.suggest()
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(.top, 16)
         }
-        .padding()
+        .padding(.vertical)
     }
 
-    private func levelColor(_ level: Int) -> Color {
-        switch level {
-        case 1: return .blue
-        case 2: return .cyan
+    private func color(for level: Int, selected: Int) -> Color {
+        guard level <= selected else { return .white }
+        switch selected {
+        case 1, 2: return .blue
         case 3: return .green
         case 4: return .orange
         case 5: return .red
@@ -55,9 +70,9 @@ struct CoordinateSuggestionView: View {
 
     private func patternLabel(for pattern: CoordinatePattern) -> String {
         switch pattern {
-        case .topBottomShoes: return "トップス + ボトムス + シューズ"
-        case .setupShoes: return "セットアップ + シューズ"
-        case .onepieceShoes: return "ワンピース + シューズ"
+        case .topBottomShoes: return "トップス＋ボトムス＋シューズ"
+        case .setupShoes: return "セットアップ＋シューズ"
+        case .onepieceShoes: return "ワンピース＋シューズ"
         }
     }
 }

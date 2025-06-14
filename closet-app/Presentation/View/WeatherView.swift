@@ -15,7 +15,7 @@ struct WeatherView: View {
     @State private var isVisible = false
 
     var body: some View {
-        VStack {
+        ScrollView {
             if let weather = viewModel.weatherInfo {
                 VStack(spacing: 16) {
                     Image(systemName: weather.symbolName)
@@ -41,13 +41,14 @@ struct WeatherView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 32))
                 .shadow(color: .black.opacity(0.2), radius: 24, x: 0, y: 10)
 
-                // ✅ CoordinateSuggestionViewを呼び出す
-                CoordinateSuggestionView(
-                    viewModel: CoordinateSuggestionViewModel(
-                        items: closetItems.map { $0.toEntity() },
-                        weather: weather
+                if let weather = viewModel.weatherInfo {
+                    CoordinateSuggestionView(
+                        viewModel: CoordinateSuggestionViewModel(
+                            items: closetItems.map { $0.toEntity() },
+                            weather: weather
+                        )
                     )
-                )
+                }
             } else if viewModel.isLoading {
                 ProgressView("読み込み中...")
             } else if let error = viewModel.errorMessage {
