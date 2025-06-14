@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ClosetItemEntity {
+struct ClosetItemEntity: Hashable, Identifiable {
     let id: UUID
     let imageData: Data?
     let category: Category

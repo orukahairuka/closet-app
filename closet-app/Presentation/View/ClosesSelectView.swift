@@ -79,10 +79,12 @@ struct CloseSelectView: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredItems) { item in
                     NavigationLink(destination: ClosetItemDetailView(item: item)) {
-                        ClosetCardView(item: item)
+                        ClosetCardView(item: item.toEntity()) // カードは Entity 用
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
+
+
             }
             .padding()
         }
