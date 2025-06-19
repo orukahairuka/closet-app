@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SaveButtonView: View {
-    let animationDuration: TimeInterval = 0.3
+    let action: () -> Void  // 保存処理を外部から受け取る
+    var bodyText: String = "保存する"
 
     @State private var isAnimating = false
     @State private var taskDone = false
@@ -16,49 +17,45 @@ struct SaveButtonView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
-
-            ZStack {
-                RoundedRectangle(cornerRadius: isAnimating ? 46 : 20)
-                    .fill(Color.green)
-                    .frame(width: isAnimating ? 92 : 300, height: 92)
-                    .scaleEffect(submitScale)
-                    .onTapGesture {
-                        if !isAnimating {
-                            startSavingAnimation()
-                        }
+            RoundedRectangle(cornerRadius: isAnimating ? 46 : 20)
+                .fill(Color.green)
+                .frame(width: isAnimating ? 92 : .infinity, height: 60)
+                .scaleEffect(submitScale)
+                .onTapGesture {
+                    if !isAnimating {
+                        startSaving()
                     }
+                }
 
-                // ✅ ✔マークだけ
-                Tick(scaleFactor: 0.7)
-                    .trim(from: 0, to: taskDone ? 1 : 0)
-                    .stroke(style: StrokeStyle(lineWidth: 6, lineCap: .round))
-                    .foregroundColor(.white)
-                    .frame(width: 36, height: 36)
-                    .animation(.easeOut(duration: 0.3), value: taskDone)
+            Tick(scaleFactor: 0.7)
+                .trim(from: 0, to: taskDone ? 1 : 0)
+                .stroke(style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                .foregroundColor(.white)
+                .frame(width: 36, height: 36)
+                .animation(.easeOut(duration: 0.3), value: taskDone)
 
-                Text("保存する")
-                    .font(.system(size: 28, weight: .bold, design: .monospaced))
-                    .foregroundColor(.white)
-                    .opacity(isAnimating ? 0 : 1)
-                    .scaleEffect(isAnimating ? 0.7 : 1)
-                    .animation(.easeOut(duration: animationDuration), value: isAnimating)
-            }
+            Text(bodyText)
+                .font(.system(size: 20, weight: .bold, design: .monospaced))
+                .foregroundColor(.white)
+                .opacity(isAnimating ? 0 : 1)
+                .scaleEffect(isAnimating ? 0.7 : 1)
+                .animation(.easeOut(duration: 0.3), value: isAnimating)
         }
     }
 
-    private func startSavingAnimation() {
+    private func startSaving() {
         toggleIsAnimating()
 
-        // ✔を出すタイミング（すぐ）
+        // ✔マーク表示
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.taskDone = true
+            taskDone = true
         }
 
-        // ✔を戻すタイミング
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.taskDone = false
+        // 保存実行＆戻る
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            taskDone = false
             toggleIsAnimating()
+            action()
         }
 
         animateButton()
@@ -66,16 +63,16 @@ struct SaveButtonView: View {
 
     private func animateButton() {
         withAnimation(.easeInOut(duration: 0.3)) {
-            self.submitScale = 1.2
+            submitScale = 1.2
         }
         withAnimation(.easeInOut(duration: 0.3).delay(0.3)) {
-            self.submitScale = 1.0
+            submitScale = 1.0
         }
     }
 
     private func toggleIsAnimating() {
-        withAnimation(.spring(response: animationDuration * 1.25, dampingFraction: 0.9)) {
-            self.isAnimating.toggle()
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+            isAnimating.toggle()
         }
     }
 }
