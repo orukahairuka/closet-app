@@ -10,7 +10,7 @@ import SwiftData
 
 struct AddClosetItemView: View {
     @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) private var dismiss  // ← これを追加！
+    @Environment(\.dismiss) private var dismiss
 
     @State private var selectedCategory: Category = .tops
     @State private var selectedSeason: Season = .spring
@@ -20,51 +20,130 @@ struct AddClosetItemView: View {
     @State private var memo: String = ""
 
     var body: some View {
-        Form {
-            Section(header: Text("画像")) {
-                if let image = image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 150)
+        ZStack {
+            NightGlassBackground()
+
+            ScrollView {
+                VStack(spacing: 28) {
+                    // MARK: - 画像選択
+                    VStack(spacing: 12) {
+                        Text("アイテム画像")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.ultraThinMaterial)
+                                .frame(height: 200)
+                                .shadow(color: .white.opacity(0.1), radius: 10)
+
+                            if let image = image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 160)
+                                    .cornerRadius(16)
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                        }
+
+                        Button("画像を選択") {
+                            showImagePicker = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.white.opacity(0.3))
+                    }
+                    .frame(maxWidth: .infinity)
+
+                    // MARK: - カテゴリ
+                    glassSection(title: "カテゴリ") {
+                        Picker("カテゴリ", selection: $selectedCategory) {
+                            ForEach(Category.allCases) { category in
+                                Text(category.displayName).tag(category)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .foregroundColor(.white)
+                    }
+
+                    // MARK: - 季節
+                    glassSection(title: "季節") {
+                        Picker("季節", selection: $selectedSeason) {
+                            ForEach(Season.allCases) { season in
+                                Text(season.displayName).tag(season)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .foregroundColor(.white)
+                    }
+
+                    // MARK: - URL
+                    glassSection(title: "商品URL") {
+                        TextField("https://example.com", text: $urlText)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.URL)
+                            .autocapitalization(.none)
+                    }
+
+                    // MARK: - メモ
+                    glassSection(title: "メモ") {
+                        TextField("メモを入力", text: $memo)
+                            .textFieldStyle(.roundedBorder)
+                    }
+
+                    // MARK: - 保存ボタン（緑）
+                    Button(action: {
+                        let data = image?.jpegData(compressionQuality: 0.8)
+                        let item = ClosetItemModel(
+                            imageData: data,
+                            category: selectedCategory,
+                            season: selectedSeason,
+                            productURL: URL(string: urlText),
+                        )
+                        context.insert(item)
+                        dismiss()
+                    }) {
+                        Text("保存する")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green.opacity(0.85))
+                            .foregroundColor(.white)
+                            .cornerRadius(16)
+                            .shadow(color: .green.opacity(0.3), radius: 6)
+                    }
                 }
-                Button("画像を選択") {
-                    showImagePicker = true
-                }
+                .padding(.horizontal)
+                .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
             }
-
-            Picker("カテゴリ", selection: $selectedCategory) {
-                ForEach(Category.allCases) { category in
-                    Text(category.displayName).tag(category)
-                }
-            }
-
-            Picker("季節", selection: $selectedSeason) {
-                ForEach(Season.allCases) { season in
-                    Text(season.displayName).tag(season)
-                }
-            }
-
-            TextField("商品URL", text: $urlText)
-                .keyboardType(.URL)
-                .autocapitalization(.none)
-
-            TextField("メモ", text: $memo)
-
-            Button("保存") {
-                let data = image?.jpegData(compressionQuality: 0.8)
-                let item = ClosetItemModel(
-                    imageData: data,
-                    category: selectedCategory,
-                    season: selectedSeason,
-                    productURL: URL(string: urlText),
-                )
-                context.insert(item)
-                dismiss()
+            .sheet(isPresented: $showImagePicker) {
+                ImagePicker(image: $image)
             }
         }
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $image)
+        .navigationTitle("アイテム追加")
+    }
+
+    // MARK: - グラス風セクション共通
+    @ViewBuilder
+    private func glassSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+
+            content()
         }
+        .padding()
+        .frame(maxWidth: .infinity) // ✅ 横幅を統一
+        .background(.ultraThinMaterial)
+        .cornerRadius(16)
+        .shadow(color: .white.opacity(0.05), radius: 4)
     }
 }
