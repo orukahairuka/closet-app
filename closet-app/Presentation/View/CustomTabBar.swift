@@ -33,11 +33,11 @@ struct CustomTabBar: View {
 
                             Image(systemName: tab.icon)
                                 .font(.system(size: 20, weight: .medium))
-                                .foregroundColor(selectedTab == tab ? .black : .black.opacity(0.7))
+                                .foregroundColor(selectedTab == tab ? .black : .gray.opacity(0.7))
                         }
                         Text(tab.title)
                             .font(.caption2)
-                            .foregroundColor(selectedTab == tab ? .black : .black.opacity(0.7))
+                            .foregroundColor(selectedTab == tab ? .black : .gray.opacity(0.7))
                     }
                 }
 
@@ -47,7 +47,7 @@ struct CustomTabBar: View {
         .padding(.vertical, 12)
         .background(
             BlurBackground(cornerRadius: 20)
-                .shadow(color: .black.opacity(0.8), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.7), radius: 2, x: 0, y: 2)
         )
         .padding(.horizontal, 16)
         .padding(.bottom, 12)
