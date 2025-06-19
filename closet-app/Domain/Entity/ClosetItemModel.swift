@@ -16,7 +16,6 @@ class ClosetItemModel: Identifiable {
     var category: Category
     var season: Season
     var productURL: URL?
-    var memo: String?
 
     init(
         id: UUID = UUID(),
@@ -24,13 +23,11 @@ class ClosetItemModel: Identifiable {
         category: Category,
         season: Season,
         productURL: URL? = nil,
-        memo: String? = nil
     ) {
         self.id = id
         self.imageData = imageData
         self.category = category
         self.season = season
         self.productURL = productURL
-        self.memo = memo
     }
 }

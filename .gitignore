@@ -105,3 +105,9 @@ xcuserdata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/swiftpm,swift,xcode
+
+# Custom ignores
+
+.DS_Store
+closet-app/Presentation/View/closet_appApp.swift
+
