@@ -14,17 +14,18 @@ struct MainTabView: View {
     @Query private var closetItems: [ClosetItemModel]
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            currentView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .animation(.easeInOut, value: selectedTab)
+        NavigationStack {  // ← 🔧 追加！
+            ZStack(alignment: .bottom) {
+                currentView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .animation(.easeInOut, value: selectedTab)
 
-            CustomTabBar(selectedTab: $selectedTab, animation: animation)
+                CustomTabBar(selectedTab: $selectedTab, animation: animation)
+            }
+            .ignoresSafeArea(.keyboard)
         }
-        .ignoresSafeArea(.keyboard)
     }
 
-    // View切り替え用の関数
     @ViewBuilder
     private func currentView() -> some View {
         switch selectedTab {
@@ -38,5 +39,4 @@ struct MainTabView: View {
             CoreMLView()
         }
     }
-
 }
