@@ -11,7 +11,8 @@ import SwiftUI
 struct closet_appApp: App {
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            ContentView(captureModel: AVCaptureViewModel())
+
         }
         .modelContainer(for: ClosetItemModel.self)
     }
