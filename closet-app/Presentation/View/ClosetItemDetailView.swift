@@ -14,16 +14,13 @@ struct ClosetItemDetailView: View {
     @State private var showImagePicker = false
     @State private var showDeleteConfirm = false
 
-    let item: ClosetItemModel  // ← 直接受け取る
-
+    let item: ClosetItemModel
     @StateObject private var viewModel: ClosetItemDetailViewModel
-
 
     init(item: ClosetItemModel) {
         self.item = item
         _viewModel = StateObject(wrappedValue: ClosetItemDetailViewModel())
     }
-
 
     private func configureViewModelIfNeeded() {
         if viewModel.item.id != item.id {
@@ -34,148 +31,151 @@ struct ClosetItemDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
+        ZStack {
+            NightGlassBackground() // 背景にガラス風のレイヤー
 
-                // 画像セクション
-                VStack {
-                    Text("アイテム画像")
-                        .font(.headline)
+            ScrollView {
+                VStack(spacing: 28) {
+                    // MARK: - 画像セクション
+                    VStack(spacing: 12) {
+                        Text("アイテム画像")
+                            .font(.headline)
+                            .foregroundStyle(.white)
 
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.ultraThinMaterial)
-                            .frame(height: 180)
-                            .shadow(radius: 4)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.ultraThinMaterial)
+                                .frame(height: 200)
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .shadow(color: .white.opacity(0.1), radius: 10)
 
-                        if let newImage = viewModel.newImage {
-                            Image(uiImage: newImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 150)
-                        } else if let data = viewModel.item.imageData, let uiImage = UIImage(data: data) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 150)
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .foregroundColor(.gray)
+                            if let newImage = viewModel.newImage {
+                                Image(uiImage: newImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 160)
+                                    .cornerRadius(16)
+                            } else if let data = viewModel.item.imageData, let uiImage = UIImage(data: data) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 160)
+                                    .cornerRadius(16)
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                        }
+
+                        Button("画像を変更") {
+                            showImagePicker = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.white.opacity(0.3))
+                    }
+
+                    // MARK: - 基本情報
+                    VStack(alignment: .leading, spacing: 20) {
+                        glassSection(title: "カテゴリ") {
+                            Picker("カテゴリ", selection: $viewModel.item.category) {
+                                ForEach(Category.allCases) { category in
+                                    Text(category.displayName).tag(category)
+                                }
+                            }
+                            .pickerStyle(.menu) // ← セグメントからメニューに変更
+                        }
+
+                        glassSection(title: "季節") {
+                            Picker("季節", selection: $viewModel.item.season) {
+                                ForEach(Season.allCases) { season in
+                                    Text(season.displayName).tag(season)
+                                }
+                            }
+                            .pickerStyle(.segmented)
                         }
                     }
 
-                    Button("画像を変更") {
-                        showImagePicker = true
-                    }
-                    .buttonStyle(.bordered)
-                    .padding(.top, 8)
-                }
+                    // MARK: - URL
+                    glassSection(title: "商品ページのURL") {
+                        TextField("https://example.com", text: $viewModel.urlText)
+                            .textFieldStyle(.roundedBorder)
 
-                // 基本情報
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("カテゴリ")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding(.bottom, 4)
-                    Picker("カテゴリ", selection: $viewModel.item.category) {
-                        ForEach(Category.allCases) { category in
-                            Text(category.displayName).tag(category)
+                        if let url = viewModel.item.productURL, !url.absoluteString.isEmpty {
+                            Link("▶︎ 商品ページを開く", destination: url)
+                                .foregroundColor(.blue)
                         }
                     }
 
-                    Text("季節")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding(.bottom, 4)
-                    Picker("季節", selection: $viewModel.item.season) {
-                        ForEach(Season.allCases) { season in
-                            Text(season.displayName).tag(season)
+                    // MARK: - 保存ボタン
+                    Button(action: {
+                        viewModel.saveChanges()
+                        dismiss()
+                    }) {
+                        Text("保存する")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green.opacity(0.85)) // 🌿 緑系に変更
+                            .foregroundColor(.white)
+                            .cornerRadius(16)
+                            .shadow(color: .green.opacity(0.3), radius: 6, x: 0, y: 4) // 少し浮かせる
+                    }
+
+
+                    // MARK: - 削除ボタン
+                    Button(role: .destructive) {
+                        showDeleteConfirm = true
+                    } label: {
+                        Text("削除する")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.red.opacity(0.8))
+                            .foregroundColor(.white)
+                            .cornerRadius(16)
+                    }
+                    .confirmationDialog("本当に削除しますか？", isPresented: $showDeleteConfirm) {
+                        Button("削除する", role: .destructive) {
+                            do {
+                                try viewModel.deleteItem()
+                                dismiss()
+                            } catch {
+                                print("❌ 削除失敗: \(error)")
+                            }
                         }
+                        Button("キャンセル", role: .cancel) { }
                     }
                 }
-
-                // 商品URL
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("商品ページのURL")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding(.bottom, 4)
-
-                    TextField("https://example.com", text: $viewModel.urlText)
-                        .textFieldStyle(.roundedBorder)
-
-                    if let url = viewModel.item.productURL, !url.absoluteString.isEmpty {
-                        Link("▶︎ 商品ページを開く", destination: url)
-                            .font(.callout)
-                            .foregroundColor(.blue)
-                    }
-                }
-
-                // メモ
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("メモ")
-                        .font(.subheadline)
-
-                    TextField("お気に入りポイントなど", text: Binding(
-                        get: { viewModel.item.memo ?? "" },
-                        set: { viewModel.item.memo = $0 }
-                    ))
-                    .textFieldStyle(.roundedBorder)
-                }
-
-                /// 保存ボタン
-                Button {
-                    viewModel.saveChanges()
-                    dismiss()
-                } label: {
-                    Text("保存する")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.pink.opacity(0.9))
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
-
-                // 削除ボタン
-                Button(role: .destructive) {
-                    showDeleteConfirm = true
-                } label: {
-                    Text("削除する")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.red.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
-                .confirmationDialog("本当に削除しますか？", isPresented: $showDeleteConfirm) {
-                    Button("削除する", role: .destructive) {
-                        do {
-                            try viewModel.deleteItem()
-                            dismiss()
-                        } catch {
-                            print("❌ 削除失敗: \(error)")
-                        }
-                    }
-                    Button("キャンセル", role: .cancel) { }
-                }
-
+                .padding()
             }
-            .padding()
+            .sheet(isPresented: $showImagePicker) {
+                ImagePicker(image: $viewModel.newImage)
+            }
+            .onAppear {
+                configureViewModelIfNeeded()
+            }
+            .navigationTitle("アイテム編集")
         }
-        .navigationTitle("アイテム編集")
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $viewModel.newImage)
-        }
-        .onAppear {
-            print("✅ DetailView appeared")
+    }
 
-            configureViewModelIfNeeded()
-        }
+    // MARK: - グラス風セクション共通View
+    @ViewBuilder
+    private func glassSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
 
+            content()
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .cornerRadius(16)
+        .shadow(color: .white.opacity(0.05), radius: 4)
     }
 }

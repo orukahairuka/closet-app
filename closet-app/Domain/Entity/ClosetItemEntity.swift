@@ -13,21 +13,17 @@ struct ClosetItemEntity: Hashable, Identifiable {
     let category: Category
     let season: Season
     let productURL: URL?
-    let memo: String?
-
     init(
         id: UUID = UUID(),
         imageData: Data?,
         category: Category,
         season: Season,
         productURL: URL?,
-        memo: String?
     ) {
         self.id = id
         self.imageData = imageData
         self.category = category
         self.season = season
         self.productURL = productURL
-        self.memo = memo
     }
 }
