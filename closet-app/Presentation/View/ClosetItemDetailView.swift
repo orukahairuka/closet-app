@@ -111,19 +111,12 @@ struct ClosetItemDetailView: View {
                     }
 
                     // MARK: - 保存ボタン
-                    Button(action: {
+                    SaveButtonView {
                         viewModel.saveChanges()
                         dismiss()
-                    }) {
-                        Text("保存する")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(0.85)) // 🌿 緑系に変更
-                            .foregroundColor(.white)
-                            .cornerRadius(16)
-                            .shadow(color: .green.opacity(0.3), radius: 6, x: 0, y: 4) // 少し浮かせる
                     }
+                    .frame(height: 60)
+
 
 
                     // MARK: - 削除ボタン

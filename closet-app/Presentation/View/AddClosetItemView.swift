@@ -98,37 +98,27 @@ struct AddClosetItemView: View {
                     }
 
                     // MARK: - 保存ボタン（緑）
-                    Button(action: {
+                    SaveButtonView {
                         let data = image?.jpegData(compressionQuality: 0.8)
                         let item = ClosetItemModel(
                             imageData: data,
                             category: selectedCategory,
                             season: selectedSeason,
-                            productURL: URL(string: urlText),
+                            productURL: URL(string: urlText)
                         )
                         context.insert(item)
                         dismiss()
-                    }) {
-                        Text("保存する")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(0.85))
-                            .foregroundColor(.white)
-                            .cornerRadius(16)
-                            .shadow(color: .green.opacity(0.3), radius: 6)
                     }
+                    .frame(height: 60)
+                    .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker(image: $image)
+                }
             }
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $image)
-            }
+            .navigationTitle("アイテム追加")
         }
-        .navigationTitle("アイテム追加")
     }
-
     // MARK: - グラス風セクション共通
     @ViewBuilder
     private func glassSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
