@@ -29,12 +29,12 @@ struct CoordinateSuggestionView: View {
                 LazyHStack(spacing: 24) {
                     ForEach(viewModel.suggestedCoordinates) { coordinate in
                         VStack(spacing: 8) {
-                            Text("コーデパターン: \(patternLabel(for: coordinate.pattern))")
-                                .font(.subheadline)
+
 
                             ForEach(coordinate.items, id: \.id) { item in
                                 ClosetCardView(item: item)
                                     .frame(height: 150) // 👈 追加して表示保証
+                                    .padding()
                             }
                         }
                         .padding()
