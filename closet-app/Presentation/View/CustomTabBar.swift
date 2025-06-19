@@ -25,31 +25,31 @@ struct CustomTabBar: View {
                         ZStack {
                             if selectedTab == tab {
                                 Circle()
-                                    .fill(Color.blue.opacity(0.2))
+                                    .fill(Color.white.opacity(0.15))
                                     .frame(width: 44, height: 44)
+                                    .shadow(color: .white.opacity(0.4), radius: 4)
                                     .matchedGeometryEffect(id: "circle", in: animation)
                             }
 
                             Image(systemName: tab.icon)
                                 .font(.system(size: 20, weight: .medium))
-                                .foregroundColor(selectedTab == tab ? .blue : .gray)
+                                .foregroundColor(selectedTab == tab ? .black : .black.opacity(0.7))
                         }
                         Text(tab.title)
                             .font(.caption2)
-                            .foregroundColor(selectedTab == tab ? .blue : .gray)
+                            .foregroundColor(selectedTab == tab ? .black : .black.opacity(0.7))
                     }
                 }
 
                 Spacer()
             }
         }
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.ultraThinMaterial)
-                .shadow(radius: 5)
+            BlurBackground(cornerRadius: 20)
+                .shadow(color: .black.opacity(0.8), radius: 8, x: 0, y: 4)
         )
         .padding(.horizontal, 16)
-        .padding(.bottom, 10)
+        .padding(.bottom, 12)
     }
 }

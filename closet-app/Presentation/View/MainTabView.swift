@@ -16,6 +16,7 @@ struct MainTabView: View {
     var body: some View {
         NavigationStack {  // ← 🔧 追加！
             ZStack(alignment: .bottom) {
+                NightGlassBackground()
                 currentView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .animation(.easeInOut, value: selectedTab)
