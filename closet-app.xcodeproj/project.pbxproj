@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
+		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; settings = {ATTRIBUTES = (Required, ); }; };
+		CDABC8B02DFF0F990064B26E /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = CDABC8AF2DFF0F990064B26E /* Lottie */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +27,19 @@
 			remoteInfo = "closet-app";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CDABC8BB2DFF189A0064B26E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3BB8D3CC2DF9B07600D4F900 /* closet-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "closet-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
+				CDABC8B02DFF0F990064B26E /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +130,7 @@
 				3BB8D3C82DF9B07600D4F900 /* Sources */,
 				3BB8D3C92DF9B07600D4F900 /* Frameworks */,
 				3BB8D3CA2DF9B07600D4F900 /* Resources */,
+				CDABC8BB2DFF189A0064B26E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,6 +142,7 @@
 			name = "closet-app";
 			packageProductDependencies = (
 				120138472DFAF27D00659C2A /* Parchment */,
+				CDABC8AF2DFF0F990064B26E /* Lottie */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -211,6 +228,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
+				CD6B7A7F2DFDC8FA005C1F80 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -414,6 +432,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -442,6 +461,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -585,6 +605,14 @@
 				kind = branch;
 			};
 		};
+		CD6B7A7F2DFDC8FA005C1F80 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -592,6 +620,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
+		};
+		CDABC8AF2DFF0F990064B26E /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD6B7A7F2DFDC8FA005C1F80 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
