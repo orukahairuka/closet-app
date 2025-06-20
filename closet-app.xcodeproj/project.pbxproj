@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
+		3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2F2D3D2E059DE200BBF918 /* Hero */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */,
 				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +128,7 @@
 			name = "closet-app";
 			packageProductDependencies = (
 				120138472DFAF27D00659C2A /* Parchment */,
+				3B2F2D3D2E059DE200BBF918 /* Hero */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -211,6 +214,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
+				3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -587,6 +591,14 @@
 				kind = branch;
 			};
 		};
+		3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HeroTransitions/Hero.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -594,6 +606,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
+		};
+		3B2F2D3D2E059DE200BBF918 /* Hero */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */;
+			productName = Hero;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

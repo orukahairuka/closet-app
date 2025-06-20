@@ -8,25 +8,79 @@
 import SwiftUI
 import _SwiftData_SwiftUI
 
+enum FullScreenPage {
+    case none
+    case addItem
+    case buildSet
+}
+
 struct MainTabView: View {
     @State private var selectedTab: Tab = .closet
     @Namespace private var animation
     @Query private var closetItems: [ClosetItemModel]
-    @State private var allSets: [CoordinateSetModel] = []  // ✅ 状態はここで持つ
-
+    @State private var allSets: [CoordinateSetModel] = []
+    @State private var fullScreenPage: FullScreenPage = .none
 
     var body: some View {
-        NavigationStack {  // ← 🔧 追加！
-            ZStack(alignment: .bottom) {
-                NightGlassBackground()
-                currentView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .animation(.easeInOut, value: selectedTab)
+        ZStack(alignment: .bottomTrailing) {
+            NightGlassBackground()
 
-                CustomTabBar(selectedTab: $selectedTab, animation: animation)
+            currentView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .animation(.easeInOut(duration: 0.25), value: selectedTab)
+
+            CustomTabBar(selectedTab: $selectedTab, animation: animation)
+
+            fabMenu
+                .padding(.bottom, 90)
+                .padding(.trailing, 24)
+
+            if fullScreenPage != .none {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .zIndex(1)
+
+                VStack(alignment: .trailing, spacing: 0) {
+                    // ❌ 閉じるボタン（右上）
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.25)) {
+                                fullScreenPage = .none
+                            }
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(.white.opacity(0.9))
+                                .padding()
+                        }
+                    }
+
+                    Group {
+                        switch fullScreenPage {
+                        case .addItem:
+                            AddClosetItemView(allSets: $allSets)
+                        case .buildSet:
+                            SetBuilderView()
+                        case .none:
+                            EmptyView()
+                        }
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 24)
+                            .fill(.ultraThinMaterial)
+                            .shadow(radius: 10)
+                    )
+                    .padding(.horizontal)
+                }
+                .transition(.move(edge: .trailing))
+                .zIndex(2)
             }
-            .ignoresSafeArea(.keyboard)
+
         }
+        .ignoresSafeArea(.keyboard)
     }
 
     @ViewBuilder
@@ -41,5 +95,31 @@ struct MainTabView: View {
         }
     }
 
-    
+    private var fabMenu: some View {
+        VStack(spacing: 14) {
+            Button(action: {
+                withAnimation {
+                    fullScreenPage = .buildSet
+                }
+            }) {
+                Image(systemName: "square.grid.2x2.fill")
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Circle().fill(.purple))
+            }
+
+            Button(action: {
+                withAnimation {
+                    fullScreenPage = .addItem
+                }
+            }) {
+                Image(systemName: "plus")
+                    .frame(width: 36, height: 36)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Circle().fill(.blue))
+            }
+        }
+        .shadow(radius: 4)
+    }
 }
