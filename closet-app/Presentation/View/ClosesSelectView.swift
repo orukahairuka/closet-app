@@ -18,12 +18,14 @@ struct CloseSelectView: View {
     ]
 
     var body: some View {
-        VStack {
-            // カテゴリタブビュー
-            categoryTabView()
+        NavigationStack {
+            VStack {
+                // カテゴリタブビュー
+                categoryTabView()
 
-            // 選択されたカテゴリのコンテンツ
-            categoryContent(for: selectedCategory)
+                // 選択されたカテゴリのコンテンツ
+                categoryContent(for: selectedCategory)
+            }
         }
     }
 

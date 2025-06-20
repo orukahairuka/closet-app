@@ -91,7 +91,7 @@ struct loadingView: View {
     @State private var isActive = false
     var body: some View {
         if isActive {
-            HomeView()
+//            HomeView()
         } else {
             LottieView(animationName: "loading", loopMode: .loop)
                 .frame(width: 200, height: 200)
