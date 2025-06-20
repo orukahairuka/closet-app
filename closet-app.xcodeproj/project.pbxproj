@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
 		3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2F2D3D2E059DE200BBF918 /* Hero */; };
+		3B6304862E05A7DF002CBD30 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6304852E05A7DF002CBD30 /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			files = (
 				3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */,
 				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
+				3B6304862E05A7DF002CBD30 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +131,7 @@
 			packageProductDependencies = (
 				120138472DFAF27D00659C2A /* Parchment */,
 				3B2F2D3D2E059DE200BBF918 /* Hero */,
+				3B6304852E05A7DF002CBD30 /* Lottie */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -215,6 +218,7 @@
 			packageReferences = (
 				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
 				3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */,
+				3B6304842E05A7D4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -599,6 +603,14 @@
 				minimumVersion = 1.6.4;
 			};
 		};
+		3B6304842E05A7D4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -611,6 +623,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */;
 			productName = Hero;
+		};
+		3B6304852E05A7DF002CBD30 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B6304842E05A7D4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
