@@ -139,16 +139,14 @@ struct AddClosetItemView: View {
 
                         context.insert(newItem)
 
-                        // ✅ 選択されたセットがあればそこにIDを追加
                         if let selectedID = selectedSetID,
-                           let setIndex = allSets.firstIndex(where: { $0.id == selectedID }) {
-                            allSets[setIndex].itemIDs.append(newItem.id)
+                           let set = allSets.first(where: { $0.id == selectedID }) {
+                            set.itemIDs.append(newItem.id)
                         }
 
                         try? context.save()
                         dismiss()
                     }
-
                     .frame(height: 60)
                     .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
                 }

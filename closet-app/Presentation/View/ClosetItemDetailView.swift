@@ -137,14 +137,20 @@ struct ClosetItemDetailView: View {
 
 
                     SaveButtonView {
-                        viewModel.saveChanges()
+                        // 新しい画像がある場合は上書き
+                        if let newImage = viewModel.newImage {
+                            viewModel.item.imageData = newImage.jpegData(compressionQuality: 0.8)
+                        }
 
-                        // セットへの追加処理
+                        // URLとTPOを更新
+                        viewModel.item.productURL = URL(string: viewModel.urlText)
+                        viewModel.item.tpoTag = viewModel.selectedTPO
+
+                        // セットに追加（既に所属していなければ）
                         if let selectedID = selectedSetID,
-                           let setIndex = allSets.firstIndex(where: { $0.id == selectedID }) {
-                            if !allSets[setIndex].itemIDs.contains(item.id) {
-                                allSets[setIndex].itemIDs.append(item.id)
-                            }
+                           let set = allSets.first(where: { $0.id == selectedID }),
+                           !set.itemIDs.contains(viewModel.item.id) {
+                            set.itemIDs.append(viewModel.item.id)
                         }
 
                         try? context.save()
