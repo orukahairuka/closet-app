@@ -10,39 +10,38 @@ import SwiftUI
 struct NightGlassBackground: View {
     var body: some View {
         ZStack {
-            // 💜 グラデーション：紫中心＋青〜ピンクを広く分布
+            // 💜 明るめ紫をベースに、白に近づけたグラデーション
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color(red: 50/255, green: 30/255, blue: 100/255),   // 深めの紫（夜）
-                    Color(red: 90/255, green: 60/255, blue: 160/255),   // 中間の明るい紫
-                    Color(red: 140/255, green: 80/255, blue: 170/255),  // 紫よりの赤紫
-                    Color(red: 200/255, green: 140/255, blue: 200/255), // ピンク控えめ
+                    Color(red: 230/255, green: 220/255, blue: 255/255), // 白に近いラベンダー
+                    Color(red: 240/255, green: 230/255, blue: 255/255), // ほぼ白
+                    Color.white
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
-            // ✨ ふんわり白光
+            // ✨ ラベンダーがかった白い光のぼかし（自然な拡がり）
             RadialGradient(
-                gradient: Gradient(colors: [Color.white.opacity(0.06), Color.clear]),
+                gradient: Gradient(colors: [Color.purple.opacity(0.05), Color.clear]),
                 center: .topLeading,
-                startRadius: 120,
-                endRadius: 500
+                startRadius: 100,
+                endRadius: 400
             )
 
-            // 🌫 グラスっぽい光のぼかし
+            // 🌫 少し紫が入ったぼかし光
             Circle()
-                .fill(Color.white.opacity(0.04))
-                .frame(width: 280, height: 280)
-                .blur(radius: 80)
-                .offset(x: -100, y: -250)
+                .fill(Color.purple.opacity(0.04))
+                .frame(width: 240, height: 240)
+                .blur(radius: 60)
+                .offset(x: -80, y: -220)
 
             Circle()
-                .fill(Color.white.opacity(0.03))
-                .frame(width: 220, height: 220)
-                .blur(radius: 60)
-                .offset(x: 140, y: 280)
+                .fill(Color.purple.opacity(0.03))
+                .frame(width: 200, height: 200)
+                .blur(radius: 50)
+                .offset(x: 100, y: 250)
         }
     }
 }
