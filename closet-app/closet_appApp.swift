@@ -13,6 +13,6 @@ struct closet_appApp: App {
         WindowGroup {
             MainTabView()
         }
-        .modelContainer(for: ClosetItemModel.self)
+        .modelContainer(for: [ClosetItemModel.self, CoordinateSetModel.self])
     }
 }

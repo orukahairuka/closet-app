@@ -37,9 +37,9 @@ struct MainTabView: View {
         case .weather:
             WeatherTabWrapper(closetItems: closetItems)
         case .add:
-            AddClosetItemView(allSets: $allSets)
-        case .set:
-            SetBuilderView()
+            SetsPreviewView()
         }
     }
+
+    
 }
