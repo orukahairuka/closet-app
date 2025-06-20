@@ -40,3 +40,20 @@ enum Season: String, Codable, CaseIterable, Identifiable {
         }
     }
 }
+
+enum TPO: Int16, CaseIterable, Identifiable, Codable {
+    case office, school, date, outing, home, event
+
+    var id: Int16 { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .office: return "オフィス"
+        case .school: return "通学"
+        case .date: return "デート"
+        case .outing: return "おでかけ"
+        case .home: return "自宅"
+        case .event: return "イベント"
+        }
+    }
+}
