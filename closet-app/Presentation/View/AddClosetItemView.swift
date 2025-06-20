@@ -17,7 +17,12 @@ struct AddClosetItemView: View {
     @State private var image: UIImage? = nil
     @State private var showImagePicker = false
     @State private var urlText: String = ""
-    @State private var memo: String = ""
+    @State private var selectedSetID: UUID? = nil
+    @State private var selectedTPO: TPO = .office
+    @State private var showAddSetSheet = false
+    @Binding var allSets: [CoordinateSetModel] // ✅ 親Viewからセット情報を受け取る
+
+
 
     var body: some View {
         ZStack {
@@ -91,44 +96,55 @@ struct AddClosetItemView: View {
                             .autocapitalization(.none)
                     }
 
-                    // MARK: - メモ
-                    glassSection(title: "メモ") {
-                        TextField("メモを入力", text: $memo)
-                            .textFieldStyle(.roundedBorder)
+                    glassSection(title: "TPO") {
+                        Picker("TPO", selection: $selectedTPO) {
+                            ForEach(TPO.allCases) { tpo in
+                                Text(tpo.displayName).tag(tpo)
+                            }
+                        }
+                        .pickerStyle(.menu)
                     }
 
-                    // MARK: - 保存ボタン（緑）
-                    Button(action: {
+
+                    SaveButtonView {
                         let data = image?.jpegData(compressionQuality: 0.8)
-                        let item = ClosetItemModel(
+                        let newItem = ClosetItemModel(
                             imageData: data,
                             category: selectedCategory,
                             season: selectedSeason,
                             productURL: URL(string: urlText),
+                            tpoTag: selectedTPO
                         )
-                        context.insert(item)
-                        dismiss()
-                    }) {
-                        Text("保存する")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(0.85))
-                            .foregroundColor(.white)
-                            .cornerRadius(16)
-                            .shadow(color: .green.opacity(0.3), radius: 6)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
-            }
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $image)
-            }
-        }
-        .navigationTitle("アイテム追加")
-    }
 
+                        context.insert(newItem)
+
+                        if let selectedID = selectedSetID,
+                           let set = allSets.first(where: { $0.id == selectedID }) {
+                            set.itemIDs.append(newItem.id)
+                        }
+
+                        try? context.save()
+                        dismiss()
+                    }
+                    .frame(height: 60)
+                    .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
+                }
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker(image: $image)
+                }
+            }
+            .navigationTitle("アイテム追加")
+            .sheet(isPresented: $showAddSetSheet) {
+                AddSetSheetView { newSet in
+                    context.insert(newSet)
+                    try? context.save()
+                    allSets.append(newSet)        // ✅ 即反映
+                           selectedSetID = newSet.id     // ✅ 選択更新
+                }
+            }
+
+        }
+    }
     // MARK: - グラス風セクション共通
     @ViewBuilder
     private func glassSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

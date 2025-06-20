@@ -13,6 +13,9 @@ struct ClosetItemDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showImagePicker = false
     @State private var showDeleteConfirm = false
+    @Query private var allSets: [CoordinateSetModel]
+
+
 
     let item: ClosetItemModel
     @StateObject private var viewModel: ClosetItemDetailViewModel
@@ -26,9 +29,10 @@ struct ClosetItemDetailView: View {
         if viewModel.item.id != item.id {
             let repository = ClosetItemRepository(context: context)
             let deleteUseCase = DeleteClosetItemUseCase(repository: repository)
-            viewModel.setUp(item: item, context: context, deleteUseCase: deleteUseCase)
+            viewModel.setUp(item: item, context: context, deleteUseCase: deleteUseCase, allSets: allSets)
         }
     }
+
 
     var body: some View {
         ZStack {
@@ -110,21 +114,31 @@ struct ClosetItemDetailView: View {
                         }
                     }
 
-                    // MARK: - 保存ボタン
-                    Button(action: {
-                        viewModel.saveChanges()
-                        dismiss()
-                    }) {
-                        Text("保存する")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(0.85)) // 🌿 緑系に変更
-                            .foregroundColor(.white)
-                            .cornerRadius(16)
-                            .shadow(color: .green.opacity(0.3), radius: 6, x: 0, y: 4) // 少し浮かせる
+                    glassSection(title: "TPO") {
+                        Picker("TPO", selection: $viewModel.selectedTPO) {
+                            ForEach(TPO.allCases) { tpo in
+                                Text(tpo.displayName).tag(tpo)
+                            }
+                        }
+                        .pickerStyle(.menu)
                     }
 
+
+                    SaveButtonView {
+                        if let newImage = viewModel.newImage {
+                            viewModel.item.imageData = newImage.jpegData(compressionQuality: 0.8)
+                        }
+
+                        viewModel.item.productURL = URL(string: viewModel.urlText)
+                        viewModel.item.tpoTag = viewModel.selectedTPO
+
+                        // 🔧 所属セットの更新をViewModel経由で
+                        viewModel.updateSetMembership(allSets: allSets)
+
+                        try? context.save()
+                        dismiss()
+                    }
+                    .frame(height: 60)
 
                     // MARK: - 削除ボタン
                     Button(role: .destructive) {
@@ -158,6 +172,7 @@ struct ClosetItemDetailView: View {
             .onAppear {
                 configureViewModelIfNeeded()
             }
+
             .navigationTitle("アイテム編集")
         }
     }

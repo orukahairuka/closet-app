@@ -9,11 +9,14 @@ import SwiftUI
 
 struct ClosetCardView: View {
     let item: ClosetItemEntity
-
+    var isSelected: Bool = false       // ← 追加
+    var onTap: () -> Void = {}
+    
+    
     // 横2列に並べる用サイズ
     private let cardWidth: CGFloat = (UIScreen.main.bounds.width / 2) - 24
     private let cardHeight: CGFloat = 220
-
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             // 画像本体
@@ -30,7 +33,7 @@ struct ClosetCardView: View {
                     .frame(width: cardWidth, height: cardHeight)
                     .overlay(Text("No Image").foregroundColor(.gray))
             }
-
+            
             // 左上：季節ラベル
             Text(item.season.displayName)
                 .font(.caption2)
@@ -40,51 +43,19 @@ struct ClosetCardView: View {
                 .background(Color.black.opacity(0.4))
                 .cornerRadius(8)
                 .padding([.top, .leading], 8)
-
-            // 右上：いいねハート
-            HStack {
-                Spacer()
-                VStack {
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: 28, height: 28)
-                        .overlay(
-                            Image(systemName: "heart")
-                                .font(.system(size: 14))
-                                .foregroundColor(.red)
-                        )
-                        .padding(.top, 8)
-                        .padding(.trailing, 8)
-                    Spacer()
-                }
+            
+            if isSelected {
+                Color.black.opacity(0.4)
+                    .cornerRadius(12)
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 36))
+                    .foregroundColor(.white)
             }
         }
         .frame(width: cardWidth, height: cardHeight)
-        .background(Color.white.opacity(0.0001)) // 背景タップ対応
-        .cornerRadius(12)
+        .onTapGesture {
+            onTap()
+        }
         .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
-}
-
-
-#Preview {
-    Group {
-        ClosetCardView(item: .init(
-            id: UUID(),
-            imageData: nil,
-            category: .tops,
-            season: .spring,
-            productURL: nil
-        ))
-
-        ClosetCardView(item: .init(
-            id: UUID(),
-            imageData: UIImage(named: "sample_shoes")?.pngData(),
-            category: .shoes,
-            season: .summer,
-            productURL: nil
-        ))
-    }
-    .previewLayout(.sizeThatFits)
-    .padding()
 }

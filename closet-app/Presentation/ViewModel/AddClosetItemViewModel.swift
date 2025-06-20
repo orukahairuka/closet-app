@@ -12,7 +12,7 @@ final class AddClosetItemViewModel: ObservableObject {
     @Published var selectedSeason: Season = .spring
     @Published var image: UIImage?
     @Published var urlText: String = ""
-    @Published var memo: String = ""
+    @Published var selectedTPO: TPO = .office
 
     private let useCase: AddClosetItemUseCaseProtocol
 
@@ -26,6 +26,7 @@ final class AddClosetItemViewModel: ObservableObject {
             category: selectedCategory,
             season: selectedSeason,
             productURL: URL(string: urlText),
+            tpoTag: selectedTPO,
         )
         try useCase.execute(item: entity)
     }

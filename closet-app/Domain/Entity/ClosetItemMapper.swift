@@ -15,6 +15,7 @@ extension ClosetItemModel {
             category: self.category,
             season: self.season,
             productURL: self.productURL,
+            tpoTag: self.tpoTag,
         )
     }
 }
@@ -27,6 +28,7 @@ extension ClosetItemEntity {
             category: self.category,
             season: self.season,
             productURL: self.productURL,
+            tpoTag: self.tpoTag
         )
     }
 }
