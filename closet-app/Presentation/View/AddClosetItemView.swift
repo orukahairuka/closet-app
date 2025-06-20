@@ -96,26 +96,6 @@ struct AddClosetItemView: View {
                             .autocapitalization(.none)
                     }
 
-                    glassSection(title: "所属セット") {
-                        Picker("セットを選択", selection: $selectedSetID) {
-                            Text("選択しない").tag(UUID?.none)
-
-                            ForEach(allSets) { set in
-                                Text(set.name).tag(Optional(set.id))
-                            }
-
-                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // ダミー
-                        }
-                        .pickerStyle(.menu)
-                        .onChange(of: selectedSetID) { newValue in
-                            if let newValue, !allSets.contains(where: { $0.id == newValue }) {
-                                showAddSetSheet = true
-                                selectedSetID = nil
-                            }
-                        }
-                    }
-
-
                     glassSection(title: "TPO") {
                         Picker("TPO", selection: $selectedTPO) {
                             ForEach(TPO.allCases) { tpo in

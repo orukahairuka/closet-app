@@ -114,19 +114,6 @@ struct ClosetItemDetailView: View {
                         }
                     }
 
-                    glassSection(title: "所属セット") {
-                        Picker("セットを選択", selection: $viewModel.selectedSetID) {
-                            Text("選択しない").tag(UUID?.none)
-
-                            ForEach(allSets) { set in
-                                Text(set.name).tag(Optional(set.id))
-                            }
-
-                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // 特殊なIDで処理
-                        }
-                        .pickerStyle(.menu)
-                    }
-
                     glassSection(title: "TPO") {
                         Picker("TPO", selection: $viewModel.selectedTPO) {
                             ForEach(TPO.allCases) { tpo in
