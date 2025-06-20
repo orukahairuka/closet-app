@@ -18,6 +18,9 @@ struct AddClosetItemView: View {
     @State private var showImagePicker = false
     @State private var urlText: String = ""
     @State private var memo: String = ""
+    @Query private var allSets: [CoordinateSetModel]
+    @State private var selectedSetID: UUID? = nil
+
 
     var body: some View {
         ZStack {
@@ -92,23 +95,39 @@ struct AddClosetItemView: View {
                     }
 
                     // MARK: - メモ
-                    glassSection(title: "メモ") {
-                        TextField("メモを入力", text: $memo)
-                            .textFieldStyle(.roundedBorder)
+                    glassSection(title: "所属セット") {
+                        Picker("セットを選択", selection: $selectedSetID) {
+                            Text("選択しない").tag(UUID?.none)
+
+                            ForEach(allSets) { set in
+                                Text(set.name).tag(Optional(set.id))
+                            }
+                        }
+                        .pickerStyle(.menu)
                     }
 
-                    // MARK: - 保存ボタン（緑）
+
                     SaveButtonView {
                         let data = image?.jpegData(compressionQuality: 0.8)
-                        let item = ClosetItemModel(
+                        let newItem = ClosetItemModel(
                             imageData: data,
                             category: selectedCategory,
                             season: selectedSeason,
                             productURL: URL(string: urlText)
                         )
-                        context.insert(item)
+
+                        context.insert(newItem)
+
+                        // ✅ 選択されたセットがあればそこにIDを追加
+                        if let selectedID = selectedSetID,
+                           let setIndex = allSets.firstIndex(where: { $0.id == selectedID }) {
+                            allSets[setIndex].itemIDs.append(newItem.id)
+                        }
+
+                        try? context.save()
                         dismiss()
                     }
+
                     .frame(height: 60)
                     .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
                 }

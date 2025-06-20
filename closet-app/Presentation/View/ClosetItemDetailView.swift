@@ -13,6 +13,9 @@ struct ClosetItemDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showImagePicker = false
     @State private var showDeleteConfirm = false
+    @Query private var allSets: [CoordinateSetModel]
+    @State private var selectedSetID: UUID? = nil
+
 
     let item: ClosetItemModel
     @StateObject private var viewModel: ClosetItemDetailViewModel
@@ -110,11 +113,34 @@ struct ClosetItemDetailView: View {
                         }
                     }
 
-                    // MARK: - 保存ボタン
+                    glassSection(title: "所属セット") {
+                        Picker("セットを選択", selection: $selectedSetID) {
+                            Text("選択しない").tag(UUID?.none)
+
+                            ForEach(allSets) { set in
+                                Text(set.name).tag(Optional(set.id))
+                            }
+
+                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // 特殊なIDで処理
+                        }
+                        .pickerStyle(.menu)
+                    }
+
                     SaveButtonView {
                         viewModel.saveChanges()
+
+                        // セットへの追加処理
+                        if let selectedID = selectedSetID,
+                           let setIndex = allSets.firstIndex(where: { $0.id == selectedID }) {
+                            if !allSets[setIndex].itemIDs.contains(item.id) {
+                                allSets[setIndex].itemIDs.append(item.id)
+                            }
+                        }
+
+                        try? context.save()
                         dismiss()
                     }
+
                     .frame(height: 60)
 
 
@@ -150,7 +176,13 @@ struct ClosetItemDetailView: View {
             }
             .onAppear {
                 configureViewModelIfNeeded()
+
+                // このアイテムが含まれるセットがあれば初期選択
+                if let matchedSet = allSets.first(where: { $0.itemIDs.contains(item.id) }) {
+                    selectedSetID = matchedSet.id
+                }
             }
+
             .navigationTitle("アイテム編集")
         }
     }
