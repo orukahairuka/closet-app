@@ -38,7 +38,7 @@ struct MainTabView: View {
             WeatherTabWrapper(closetItems: closetItems)
         case .add:
             AddClosetItemView(allSets: $allSets)
-        case .ml:
+        case .set:
             CoreMLView()
         }
     }

@@ -8,14 +8,14 @@
 import Foundation
 
 enum Tab: Int, CaseIterable {
-    case closet, weather, add, ml
+    case closet, weather, add, set
 
     var title: String {
         switch self {
         case .closet: return "クローゼット"
         case .weather: return "天気"
         case .add: return "追加"
-        case .ml: return "AIコーデ"
+        case .set: return "服のセット"
         }
     }
 
@@ -24,7 +24,7 @@ enum Tab: Int, CaseIterable {
         case .closet: return "tshirt"
         case .weather: return "cloud.sun"
         case .add: return "plus.circle"
-        case .ml: return "brain.head.profile"
+        case .set: return "brain.head.profile"
         }
     }
 }
