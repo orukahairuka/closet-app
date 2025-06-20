@@ -52,10 +52,13 @@ struct ClosetCardView: View {
                     .foregroundColor(.white)
             }
         }
+        
         .frame(width: cardWidth, height: cardHeight)
-        .onTapGesture {
-            onTap()
-        }
-        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+        
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 4)
+
+
     }
 }

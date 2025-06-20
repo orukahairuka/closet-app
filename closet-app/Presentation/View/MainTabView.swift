@@ -22,65 +22,67 @@ struct MainTabView: View {
     @State private var fullScreenPage: FullScreenPage = .none
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            NightGlassBackground()
+        // ✅ NavigationStack を全体に追加（遷移が効くように）
+        NavigationStack {
+            ZStack(alignment: .bottomTrailing) {
+                NightGlassBackground()
 
-            currentView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .animation(.easeInOut(duration: 0.25), value: selectedTab)
+                currentView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .animation(.easeInOut(duration: 0.25), value: selectedTab)
 
-            CustomTabBar(selectedTab: $selectedTab, animation: animation)
+                CustomTabBar(selectedTab: $selectedTab, animation: animation)
 
-            fabMenu
-                .padding(.bottom, 90)
-                .padding(.trailing, 24)
+                fabMenu
+                    .padding(.bottom, 90)
+                    .padding(.trailing, 24)
 
-            if fullScreenPage != .none {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                    .transition(.opacity)
-                    .zIndex(1)
+                if fullScreenPage != .none {
+                    Color.black.opacity(0.2)
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .zIndex(1)
 
-                VStack(alignment: .trailing, spacing: 0) {
-                    // ❌ 閉じるボタン（右上）
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            withAnimation(.easeInOut(duration: 0.25)) {
-                                fullScreenPage = .none
+                    VStack(alignment: .trailing, spacing: 0) {
+                        // 閉じるボタン
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation(.easeInOut(duration: 0.25)) {
+                                    fullScreenPage = .none
+                                }
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.white.opacity(0.9))
+                                    .padding()
                             }
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 24))
-                                .foregroundColor(.white.opacity(0.9))
-                                .padding()
                         }
-                    }
 
-                    Group {
-                        switch fullScreenPage {
-                        case .addItem:
-                            AddClosetItemView(allSets: $allSets)
-                        case .buildSet:
-                            SetBuilderView()
-                        case .none:
-                            EmptyView()
+                        Group {
+                            switch fullScreenPage {
+                            case .addItem:
+                                AddClosetItemView(allSets: $allSets)
+                            case .buildSet:
+                                SetBuilderView()
+                            case .none:
+                                EmptyView()
+                            }
                         }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 24)
+                                .fill(.ultraThinMaterial)
+                                .shadow(radius: 10)
+                        )
+                        .padding(.horizontal)
                     }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 24)
-                            .fill(.ultraThinMaterial)
-                            .shadow(radius: 10)
-                    )
-                    .padding(.horizontal)
+                    .transition(.move(edge: .trailing))
+                    .zIndex(2)
                 }
-                .transition(.move(edge: .trailing))
-                .zIndex(2)
             }
-
+            .ignoresSafeArea(.keyboard)
         }
-        .ignoresSafeArea(.keyboard)
     }
 
     @ViewBuilder
@@ -96,30 +98,43 @@ struct MainTabView: View {
     }
 
     private var fabMenu: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 16) {
+            // セット作成ボタン
             Button(action: {
                 withAnimation {
                     fullScreenPage = .buildSet
                 }
             }) {
                 Image(systemName: "square.grid.2x2.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                     .foregroundColor(.white)
-                    .padding()
-                    .background(Circle().fill(.purple))
+                    .padding(20)
+                    .background(Circle().fill(Color.purple))
+                    .shadow(radius: 4)
             }
+            .padding(.bottom, 10)
 
+
+            // アイテム追加ボタン
             Button(action: {
                 withAnimation {
                     fullScreenPage = .addItem
                 }
             }) {
                 Image(systemName: "plus")
-                    .frame(width: 36, height: 36)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                     .foregroundColor(.white)
-                    .padding()
-                    .background(Circle().fill(.blue))
+                    .padding(20)
+                    .background(Circle().fill(Color.blue))
+                    .shadow(radius: 4)
             }
         }
-        .shadow(radius: 4)
+        .padding(.bottom, 80) // 👈 少し上に移動（調整可）
     }
+
 }
+
