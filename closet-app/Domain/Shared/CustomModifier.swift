@@ -45,3 +45,20 @@ struct NightGlassBackground: View {
         }
     }
 }
+
+struct PurpleTabBarBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 120/255, green: 80/255, blue: 200/255),   // 濃い紫
+                        Color(red: 180/255, green: 100/255, blue: 220/255),  // 中間紫ピンク
+                        Color(red: 230/255, green: 150/255, blue: 230/255)   // ピンク寄りラベンダー
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+    }
+}
