@@ -41,10 +41,10 @@ enum Season: String, Codable, CaseIterable, Identifiable {
     }
 }
 
-enum TPO: String, Codable, CaseIterable, Identifiable {
+enum TPO: Int16, CaseIterable, Identifiable, Codable {
     case office, school, date, outing, home, event
 
-    var id: String { rawValue }
+    var id: Int16 { self.rawValue }
 
     var displayName: String {
         switch self {

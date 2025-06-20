@@ -13,6 +13,8 @@ final class ClosetItemDetailViewModel: ObservableObject {
     @Published var item: ClosetItemModel
     @Published var newImage: UIImage?
     @Published var urlText: String = ""
+    @Published var selectedTPO: TPO = .school
+
 
     private var context: ModelContext?
     private var deleteUseCase: DeleteClosetItemUseCaseProtocol?
@@ -20,7 +22,7 @@ final class ClosetItemDetailViewModel: ObservableObject {
     // デフォルトの初期化（StateObjectの仮初期化用）
     init() {
         // 仮のデータ（中身は何でもOK）
-        self.item = ClosetItemModel(category: .tops, season: .spring)
+        self.item = ClosetItemModel(category: .tops, season: .spring, tpoTag: .office)
     }
 
     /// 実際のデータをViewのbody内で注入する
@@ -29,6 +31,7 @@ final class ClosetItemDetailViewModel: ObservableObject {
         self.context = context
         self.deleteUseCase = deleteUseCase
         self.urlText = item.productURL?.absoluteString ?? ""
+        self.selectedTPO = item.tpoTag
     }
 
     func saveChanges() {
@@ -36,6 +39,7 @@ final class ClosetItemDetailViewModel: ObservableObject {
             item.imageData = newImage.jpegData(compressionQuality: 0.8)
         }
         item.productURL = URL(string: urlText)
+        item.tpoTag = selectedTPO
         try? context?.save()
     }
 

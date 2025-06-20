@@ -126,6 +126,16 @@ struct ClosetItemDetailView: View {
                         .pickerStyle(.menu)
                     }
 
+                    glassSection(title: "TPO") {
+                        Picker("TPO", selection: $viewModel.selectedTPO) {
+                            ForEach(TPO.allCases) { tpo in
+                                Text(tpo.displayName).tag(tpo)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+
+
                     SaveButtonView {
                         viewModel.saveChanges()
 

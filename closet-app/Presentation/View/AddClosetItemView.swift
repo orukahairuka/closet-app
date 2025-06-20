@@ -17,9 +17,9 @@ struct AddClosetItemView: View {
     @State private var image: UIImage? = nil
     @State private var showImagePicker = false
     @State private var urlText: String = ""
-    @State private var memo: String = ""
     @Query private var allSets: [CoordinateSetModel]
     @State private var selectedSetID: UUID? = nil
+    @State private var selectedTPO: TPO = .office
 
 
     var body: some View {
@@ -106,6 +106,15 @@ struct AddClosetItemView: View {
                         .pickerStyle(.menu)
                     }
 
+                    glassSection(title: "TPO") {
+                        Picker("TPO", selection: $selectedTPO) {
+                            ForEach(TPO.allCases) { tpo in
+                                Text(tpo.displayName).tag(tpo)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+
 
                     SaveButtonView {
                         let data = image?.jpegData(compressionQuality: 0.8)
@@ -113,7 +122,8 @@ struct AddClosetItemView: View {
                             imageData: data,
                             category: selectedCategory,
                             season: selectedSeason,
-                            productURL: URL(string: urlText)
+                            productURL: URL(string: urlText),
+                            tpoTag: selectedTPO
                         )
 
                         context.insert(newItem)

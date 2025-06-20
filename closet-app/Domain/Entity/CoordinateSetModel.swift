@@ -15,10 +15,10 @@ class CoordinateSetModel: Identifiable {
     var name: String  // セットの名前（例: 春の通学コーデ）
     var itemIDs: [UUID]
     var season: Season
-    var tpoTag: String  // 例: "通学", "オフィス", "デート"
+    var tpoTag: TPO  // 例: "通学", "オフィス", "デート"
     var createdAt: Date
 
-    init(id: UUID = UUID(), name: String, itemIDs: [UUID], season: Season, tpoTag: String, createdAt: Date = .now) {
+    init(id: UUID = UUID(), name: String, itemIDs: [UUID], season: Season, tpoTag: TPO, createdAt: Date = .now) {
         self.id = id
         self.name = name
         self.itemIDs = itemIDs

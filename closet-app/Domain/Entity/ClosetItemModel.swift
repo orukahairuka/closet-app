@@ -24,7 +24,7 @@ class ClosetItemModel: Identifiable {
         category: Category,
         season: Season,
         productURL: URL? = nil,
-        tpoTag: TPO = .office
+        tpoTag: TPO
     ) {
         self.id = id
         self.imageData = imageData

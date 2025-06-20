@@ -67,24 +67,3 @@ struct ClosetCardView: View {
 }
 
 
-#Preview {
-    Group {
-        ClosetCardView(item: .init(
-            id: UUID(),
-            imageData: nil,
-            category: .tops,
-            season: .spring,
-            productURL: nil
-        ))
-
-        ClosetCardView(item: .init(
-            id: UUID(),
-            imageData: UIImage(named: "sample_shoes")?.pngData(),
-            category: .shoes,
-            season: .summer,
-            productURL: nil
-        ))
-    }
-    .previewLayout(.sizeThatFits)
-    .padding()
-}
