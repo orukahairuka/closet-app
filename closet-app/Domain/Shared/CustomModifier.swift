@@ -62,3 +62,25 @@ struct PurpleTabBarBackgroundModifier: ViewModifier {
             )
     }
 }
+
+
+struct SunsetPurpleTabBarBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        let cuteRightColor = Color(red: 215/255, green: 150/255, blue: 235/255) // 少し濃いめラベンダーピンク
+        let middleMutedColor = Color(red: 170/255, green: 120/255, blue: 210/255) // 濃いめくすみ紫
+
+        content
+            .background(
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: cuteRightColor, location: 0.0),         // 左
+                        .init(color: middleMutedColor, location: 0.5),       // 中央
+                        .init(color: cuteRightColor, location: 1.0)          // 右
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+    }
+}
+
