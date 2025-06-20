@@ -14,6 +14,8 @@ final class ClosetItemDetailViewModel: ObservableObject {
     @Published var newImage: UIImage?
     @Published var urlText: String = ""
     @Published var selectedTPO: TPO = .school
+    @Published var selectedSetID: UUID?
+
 
 
     private var context: ModelContext?
@@ -26,13 +28,29 @@ final class ClosetItemDetailViewModel: ObservableObject {
     }
 
     /// 実際のデータをViewのbody内で注入する
-    func setUp(item: ClosetItemModel, context: ModelContext, deleteUseCase: DeleteClosetItemUseCaseProtocol) {
+    func setUp(item: ClosetItemModel,
+               context: ModelContext,
+               deleteUseCase: DeleteClosetItemUseCaseProtocol,
+               allSets: [CoordinateSetModel]) {
         self.item = item
         self.context = context
         self.deleteUseCase = deleteUseCase
         self.urlText = item.productURL?.absoluteString ?? ""
         self.selectedTPO = item.tpoTag
+
+        // 所属セットIDを初期化
+        self.selectedSetID = allSets.first(where: { $0.itemIDs.contains(item.id) })?.id
     }
+
+    func updateSetMembership(allSets: [CoordinateSetModel]) {
+        guard let selectedID = selectedSetID else { return }
+
+        if let set = allSets.first(where: { $0.id == selectedID }),
+           !set.itemIDs.contains(item.id) {
+            set.itemIDs.append(item.id)
+        }
+    }
+
 
     func saveChanges() {
         if let newImage = newImage {

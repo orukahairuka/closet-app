@@ -14,7 +14,7 @@ struct ClosetItemDetailView: View {
     @State private var showImagePicker = false
     @State private var showDeleteConfirm = false
     @Query private var allSets: [CoordinateSetModel]
-    @State private var selectedSetID: UUID? = nil
+
 
 
     let item: ClosetItemModel
@@ -29,9 +29,10 @@ struct ClosetItemDetailView: View {
         if viewModel.item.id != item.id {
             let repository = ClosetItemRepository(context: context)
             let deleteUseCase = DeleteClosetItemUseCase(repository: repository)
-            viewModel.setUp(item: item, context: context, deleteUseCase: deleteUseCase)
+            viewModel.setUp(item: item, context: context, deleteUseCase: deleteUseCase, allSets: allSets)
         }
     }
+
 
     var body: some View {
         ZStack {
@@ -114,7 +115,7 @@ struct ClosetItemDetailView: View {
                     }
 
                     glassSection(title: "所属セット") {
-                        Picker("セットを選択", selection: $selectedSetID) {
+                        Picker("セットを選択", selection: $viewModel.selectedSetID) {
                             Text("選択しない").tag(UUID?.none)
 
                             ForEach(allSets) { set in
@@ -137,29 +138,20 @@ struct ClosetItemDetailView: View {
 
 
                     SaveButtonView {
-                        // 新しい画像がある場合は上書き
                         if let newImage = viewModel.newImage {
                             viewModel.item.imageData = newImage.jpegData(compressionQuality: 0.8)
                         }
 
-                        // URLとTPOを更新
                         viewModel.item.productURL = URL(string: viewModel.urlText)
                         viewModel.item.tpoTag = viewModel.selectedTPO
 
-                        // セットに追加（既に所属していなければ）
-                        if let selectedID = selectedSetID,
-                           let set = allSets.first(where: { $0.id == selectedID }),
-                           !set.itemIDs.contains(viewModel.item.id) {
-                            set.itemIDs.append(viewModel.item.id)
-                        }
+                        // 🔧 所属セットの更新をViewModel経由で
+                        viewModel.updateSetMembership(allSets: allSets)
 
                         try? context.save()
                         dismiss()
                     }
-
                     .frame(height: 60)
-
-
 
                     // MARK: - 削除ボタン
                     Button(role: .destructive) {
@@ -192,11 +184,6 @@ struct ClosetItemDetailView: View {
             }
             .onAppear {
                 configureViewModelIfNeeded()
-
-                // このアイテムが含まれるセットがあれば初期選択
-                if let matchedSet = allSets.first(where: { $0.itemIDs.contains(item.id) }) {
-                    selectedSetID = matchedSet.id
-                }
             }
 
             .navigationTitle("アイテム編集")
