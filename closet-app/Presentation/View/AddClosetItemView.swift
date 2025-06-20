@@ -20,6 +20,8 @@ struct AddClosetItemView: View {
     @Query private var allSets: [CoordinateSetModel]
     @State private var selectedSetID: UUID? = nil
     @State private var selectedTPO: TPO = .office
+    @State private var showAddSetSheet = false
+
 
 
     var body: some View {
@@ -94,7 +96,6 @@ struct AddClosetItemView: View {
                             .autocapitalization(.none)
                     }
 
-                    // MARK: - メモ
                     glassSection(title: "所属セット") {
                         Picker("セットを選択", selection: $selectedSetID) {
                             Text("選択しない").tag(UUID?.none)
@@ -102,9 +103,19 @@ struct AddClosetItemView: View {
                             ForEach(allSets) { set in
                                 Text(set.name).tag(Optional(set.id))
                             }
+
+                            // ✅ 新規作成用項目
+                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // ダミーUUID
                         }
                         .pickerStyle(.menu)
+                        .onChange(of: selectedSetID) { newValue in
+                            if let newValue, !allSets.contains(where: { $0.id == newValue }) {
+                                showAddSetSheet = true
+                                selectedSetID = nil  // ダミー選択を解除
+                            }
+                        }
                     }
+
 
                     glassSection(title: "TPO") {
                         Picker("TPO", selection: $selectedTPO) {
@@ -146,6 +157,14 @@ struct AddClosetItemView: View {
                 }
             }
             .navigationTitle("アイテム追加")
+            .sheet(isPresented: $showAddSetSheet) {
+                AddSetSheetView { newSet in
+                    context.insert(newSet)
+                    try? context.save()
+                    selectedSetID = newSet.id
+                }
+            }
+
         }
     }
     // MARK: - グラス風セクション共通
