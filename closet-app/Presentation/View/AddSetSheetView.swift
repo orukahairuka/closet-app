@@ -12,6 +12,8 @@ struct AddSetSheetView: View {
     @State private var name: String = ""
     @State private var selectedSeason: Season = .spring
     @State private var selectedTPO: TPO = .school
+    @State private var allSets: [CoordinateSetModel] = []
+
 
     var onComplete: (CoordinateSetModel) -> Void
 

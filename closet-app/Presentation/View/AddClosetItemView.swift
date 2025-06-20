@@ -17,10 +17,10 @@ struct AddClosetItemView: View {
     @State private var image: UIImage? = nil
     @State private var showImagePicker = false
     @State private var urlText: String = ""
-    @Query private var allSets: [CoordinateSetModel]
     @State private var selectedSetID: UUID? = nil
     @State private var selectedTPO: TPO = .office
     @State private var showAddSetSheet = false
+    @Binding var allSets: [CoordinateSetModel] // ✅ 親Viewからセット情報を受け取る
 
 
 
@@ -104,14 +104,13 @@ struct AddClosetItemView: View {
                                 Text(set.name).tag(Optional(set.id))
                             }
 
-                            // ✅ 新規作成用項目
-                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // ダミーUUID
+                            Text("＋ 新しいセットを作成").tag(UUID?.some(UUID()))  // ダミー
                         }
                         .pickerStyle(.menu)
                         .onChange(of: selectedSetID) { newValue in
                             if let newValue, !allSets.contains(where: { $0.id == newValue }) {
                                 showAddSetSheet = true
-                                selectedSetID = nil  // ダミー選択を解除
+                                selectedSetID = nil
                             }
                         }
                     }
@@ -159,7 +158,8 @@ struct AddClosetItemView: View {
                 AddSetSheetView { newSet in
                     context.insert(newSet)
                     try? context.save()
-                    selectedSetID = newSet.id
+                    allSets.append(newSet)        // ✅ 即反映
+                           selectedSetID = newSet.id     // ✅ 選択更新
                 }
             }
 

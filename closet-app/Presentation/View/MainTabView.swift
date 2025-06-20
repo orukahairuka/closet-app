@@ -12,6 +12,8 @@ struct MainTabView: View {
     @State private var selectedTab: Tab = .closet
     @Namespace private var animation
     @Query private var closetItems: [ClosetItemModel]
+    @State private var allSets: [CoordinateSetModel] = []  // ✅ 状態はここで持つ
+
 
     var body: some View {
         NavigationStack {  // ← 🔧 追加！
@@ -35,7 +37,7 @@ struct MainTabView: View {
         case .weather:
             WeatherTabWrapper(closetItems: closetItems)
         case .add:
-            AddClosetItemView()
+            AddClosetItemView(allSets: $allSets)
         case .ml:
             CoreMLView()
         }
