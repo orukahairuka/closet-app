@@ -98,31 +98,43 @@ struct MainTabView: View {
     }
 
     private var fabMenu: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 16) {
+            // セット作成ボタン
             Button(action: {
                 withAnimation {
                     fullScreenPage = .buildSet
                 }
             }) {
                 Image(systemName: "square.grid.2x2.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                     .foregroundColor(.white)
-                    .padding()
-                    .background(Circle().fill(.purple))
+                    .padding(20)
+                    .background(Circle().fill(Color.purple))
+                    .shadow(radius: 4)
             }
+            .padding(.bottom, 10)
 
+
+            // アイテム追加ボタン
             Button(action: {
                 withAnimation {
                     fullScreenPage = .addItem
                 }
             }) {
                 Image(systemName: "plus")
-                    .frame(width: 36, height: 36)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                     .foregroundColor(.white)
-                    .padding()
-                    .background(Circle().fill(.blue))
+                    .padding(20)
+                    .background(Circle().fill(Color.blue))
+                    .shadow(radius: 4)
             }
         }
-        .shadow(radius: 4)
+        .padding(.bottom, 80) // 👈 少し上に移動（調整可）
     }
+
 }
 

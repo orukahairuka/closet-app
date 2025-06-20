@@ -12,6 +12,8 @@ import SwiftData
 struct CloseSelectView: View {
     @Query private var items: [ClosetItemModel]
     @State private var selectedCategory: Category = .tops  // デフォルト値を設定
+    @Namespace private var categoryTabAnimation
+
 
     private let columns = [
         GridItem(.adaptive(minimum: 160), spacing: 16)
@@ -22,6 +24,7 @@ struct CloseSelectView: View {
             VStack {
                 // カテゴリタブビュー
                 categoryTabView()
+                
 
                 // 選択されたカテゴリのコンテンツ
                 categoryContent(for: selectedCategory)
@@ -38,10 +41,12 @@ struct CloseSelectView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.vertical, 10)
         }
-        .frame(height: 70)
-        .background(Color.gray.opacity(0.1))
+        .frame(height: 80)
+        .modifier(PurpleTabBarBackgroundModifier())  // ← ここ！
     }
+
 
     // 個別のタブアイテム
     private func categoryTabItem(category: Category) -> some View {
@@ -53,17 +58,28 @@ struct CloseSelectView: View {
 
             Text(category.displayName)
                 .font(.caption)
+                .bold()
         }
+        .foregroundColor(.white)
         .padding(8)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
+            ZStack {
+                if selectedCategory == category {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.white.opacity(0.25))
+                        .matchedGeometryEffect(id: "selectedCategory", in: categoryTabAnimation)
+                }
+            }
         )
-        .foregroundColor(selectedCategory == category ? .blue : .primary)
         .onTapGesture {
-            selectedCategory = category
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedCategory = category
+            }
         }
     }
+
+
+
 
     private func categoryContent(for category: Category) -> some View {
         let filteredItems = items.filter {
