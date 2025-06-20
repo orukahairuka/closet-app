@@ -39,7 +39,7 @@ struct MainTabView: View {
         case .add:
             AddClosetItemView(allSets: $allSets)
         case .set:
-            CoreMLView()
+            SetBuilderView()
         }
     }
 }

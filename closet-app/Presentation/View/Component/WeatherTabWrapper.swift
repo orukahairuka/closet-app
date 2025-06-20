@@ -43,9 +43,3 @@ public struct WeatherTabWrapper: View {
     }
 }
 
-struct CoreMLView: View {
-    var body: some View {
-        Text("AIによるコーデ提案")
-            .padding()
-    }
-}
