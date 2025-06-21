@@ -13,7 +13,7 @@ struct CoordinateSuggestionView: View {
     var body: some View {
         ZStack(alignment: .top) {
             // キャラクターアニメーション部分（下に配置）
-            LottieView(animationName: "navigator", loopMode: .loop)
+            LottieView(animationName: "navigator", loopMode: .playOnce)
                 .frame(height: 270)
                 .padding(.horizontal, 24)
                 .padding(.top, 140) // キャラクターの表示位置を下げる
