@@ -9,7 +9,7 @@ import Foundation
 enum Category: String, CaseIterable, Identifiable, Codable, Equatable {
     var id: String { self.rawValue }
 
-    case tops, bottoms, outer, onePiece, setup, shoes, bag, accessory
+    case tops, bottoms, outer, onePiece, shoes, bag
 
     var displayName: String {
         switch self {
@@ -17,10 +17,8 @@ enum Category: String, CaseIterable, Identifiable, Codable, Equatable {
         case .bottoms: return "ボトムス"
         case .outer: return "アウター"
         case .onePiece: return "ワンピース"
-        case .setup: return "セットアップ"
         case .shoes: return "シューズ"
         case .bag: return "バッグ"
-        case .accessory: return "アクセサリー"
         }
     }
 }
