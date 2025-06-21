@@ -129,7 +129,7 @@ struct MainTabView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.white)
                     .padding(20)
-                    .background(Circle().fill(Color.blue))
+                    .background(Circle().fill(Color.purple))
                     .shadow(radius: 4)
             }
         }

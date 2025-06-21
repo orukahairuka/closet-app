@@ -90,7 +90,7 @@ struct CloseSelectView: View {
         return ScrollView {
             if filteredItems.isEmpty {
                 Text("このカテゴリにはアイテムがありません")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black)
                     .padding()
             }
 

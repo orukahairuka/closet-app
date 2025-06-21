@@ -110,7 +110,7 @@ struct ClosetItemDetailView: View {
 
                         if let url = viewModel.item.productURL, !url.absoluteString.isEmpty {
                             Link("▶︎ 商品ページを開く", destination: url)
-                                .foregroundColor(.blue)
+                                .foregroundColor(.black)
                         }
                     }
 
