@@ -85,8 +85,10 @@ struct SetBuilderView: View {
                             },
                             label: {
                                 HStack {
-                                    Image(iconName(for: category))
-                                        .frame(width: 20)
+                                     Image(iconName(for: category))
+                                         .resizable()
+                                         .scaledToFit()
+                                         .frame(width: 50, height: 50)
 
                                     Text(category.displayName)
                                         .font(.headline)
@@ -130,14 +132,14 @@ struct SetBuilderView: View {
     // カテゴリ用アイコン
     private func iconName(for category: Category) -> String {
         switch category {
-        case .bag: return "navigatebar_bags"
-        case .shoes: return "navigatebar_shoes"
-        case .tops: return "navigatebar_tops"
-        case .accessory: return "navigatebar_accessories"
-        case .outer: return "navigatebar_outer"
-        case .bottoms: return "navigatebar_bottoms"
-        case .onePiece: return "navigatebar_onepiece"
-        case .setup: return "navigatebar_setup"
+        case .bag: return "navigatebar2_bags"
+        case .shoes: return "navigatebar2_shoes"
+        case .tops: return "navigatebar2_tops"
+        case .accessory: return "navigatebar2_accessories"
+        case .outer: return "navigatebar2_outer"
+        case .bottoms: return "navigatebar2_bottoms"
+        case .onePiece: return "navigatebar2_onepiece"
+        case .setup: return "navigatebar2_setup"
         }
     }
 }

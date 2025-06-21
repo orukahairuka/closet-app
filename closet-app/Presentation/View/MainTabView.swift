@@ -39,7 +39,7 @@ struct MainTabView: View {
                     .padding(.trailing, 24)
 
                 if fullScreenPage != .none {
-                    Color.black.opacity(0.2)
+                    Color.white.opacity(0.8)
                         .ignoresSafeArea()
                         .transition(.opacity)
                         .zIndex(1)
@@ -54,8 +54,8 @@ struct MainTabView: View {
                                 }
                             }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white.opacity(0.9))
+                                    .font(.system(size: 30))
+                                    .foregroundColor(.purple.opacity(0.9))
                                     .padding()
                             }
                         }
