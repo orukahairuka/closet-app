@@ -2,7 +2,7 @@
 //  AVCaptureViewModel.swift
 //  closet-app
 //
-//  Created by 櫻井絵理香 on 2025/06/20.
+//  Created b
 //
 
 import AVFoundation
