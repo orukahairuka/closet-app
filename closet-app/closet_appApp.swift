@@ -11,8 +11,7 @@ import SwiftUI
 struct closet_appApp: App {
     var body: some Scene {
         WindowGroup {
-//            MainTabView()
-            GeminiResultView()
+            MainTabView()
         }
         .modelContainer(for: [ClosetItemModel.self, CoordinateSetModel.self])
     }
