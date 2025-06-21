@@ -1,9 +1,6 @@
-//
-//  closet_appApp.swift
-//  closet-app
-//
-//  Created by 櫻井絵理香 on 2025/06/11.
-//
+
+
+
 
 import SwiftUI
 
@@ -30,3 +27,4 @@ struct closet_appApp: App {
         .modelContainer(for: [ClosetItemModel.self, CoordinateSetModel.self])
     }
 }
+

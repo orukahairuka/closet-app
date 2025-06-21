@@ -13,37 +13,40 @@ struct CustomTabBar: View {
 
     var body: some View {
         HStack {
-            ForEach(Tab.allCases, id: \.self) { tab in
-                Spacer()
+            Spacer() // ← 左端に余白
 
-                Button(action: {
-                    withAnimation(.spring()) {
-                        selectedTab = tab
-                    }
-                }) {
-                    VStack(spacing: 4) {
-                        ZStack {
-                            if selectedTab == tab {
-                                Circle()
-                                    .fill(Color.white.opacity(0.15))
-                                    .frame(width: 44, height: 44)
-                                    .shadow(color: .white.opacity(0.4), radius: 4)
-                                    .matchedGeometryEffect(id: "circle", in: animation)
+            HStack(spacing: 32) { // ← 少し広めに
+                ForEach(Tab.allCases.filter { $0 != .weather }, id: \.self) { tab in
+                    Button(action: {
+                        withAnimation(.spring()) {
+                            selectedTab = tab
+                        }
+                    }) {
+                        VStack(spacing: 4) {
+                            ZStack {
+                                if selectedTab == tab {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.15))
+                                        .frame(width: 44, height: 44)
+                                        .shadow(color: .white.opacity(0.4), radius: 4)
+                                        .matchedGeometryEffect(id: "circle", in: animation)
+                                }
+
+                                Image(systemName: tab.icon)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.7))
                             }
-
-                            Image(systemName: tab.icon)
-                                .font(.system(size: 20, weight: .medium))
+                            Text(tab.title)
+                                .font(.caption2)
                                 .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.7))
                         }
-                        Text(tab.title)
-                            .font(.caption2)
-                            .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.7))
                     }
                 }
-
-                Spacer()
             }
+
+            Spacer() // ← 右端にも余白
         }
+        .frame(width: 370)
         .padding(.vertical, 12)
         .background(
             Color.clear
