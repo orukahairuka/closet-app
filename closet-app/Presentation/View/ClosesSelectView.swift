@@ -13,25 +13,25 @@ struct CloseSelectView: View {
     @Query private var items: [ClosetItemModel]
     @State private var selectedCategory: Category = .tops  // デフォルト値を設定
     @Namespace private var categoryTabAnimation
-
-
+    
+    
     private let columns = [
         GridItem(.adaptive(minimum: 160), spacing: 16)
     ]
-
+    
     var body: some View {
         NavigationStack {
             VStack {
                 // カテゴリタブビュー
                 categoryTabView()
                 
-
+                
                 // 選択されたカテゴリのコンテンツ
                 categoryContent(for: selectedCategory)
             }
         }
     }
-
+    
     // タブビューを別関数に分離して簡略化
     private func categoryTabView() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -46,16 +46,16 @@ struct CloseSelectView: View {
         .frame(height: 80)
         .modifier(PurpleTabBarBackgroundModifier())  // ← ここ！
     }
-
-
+    
+    
     // 個別のタブアイテム
     private func categoryTabItem(category: Category) -> some View {
         VStack {
-            Image(systemName: categoryIcon(for: category))
+            Image(categoryIcon(for: category))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 24, height: 24)
-
+            
             Text(category.displayName)
                 .font(.caption)
                 .bold()
@@ -77,23 +77,23 @@ struct CloseSelectView: View {
             }
         }
     }
-
-
-
-
+    
+    
+    
+    
     private func categoryContent(for category: Category) -> some View {
         let filteredItems = items.filter {
             print("item.category = \($0.category), selected = \(category)")
             return $0.category == category
         }
-
+        
         return ScrollView {
             if filteredItems.isEmpty {
                 Text("このカテゴリにはアイテムがありません")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black)
                     .padding()
             }
-
+            
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredItems) { item in
                     NavigationLink(destination: ClosetItemDetailView(item: item)) {
@@ -101,24 +101,24 @@ struct CloseSelectView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
-
-
+                
+                
             }
             .padding()
         }
     }
-
-
+    
+    
     private func categoryIcon(for category: Category) -> String {
         switch category {
-        case .bag: return "bag.fill"
-        case .shoes: return "shoe.fill"
-        case .tops: return "tshirt.fill"
-        case .accessory: return "circle.hexagongrid.fill"
-        case .outer: return "person.crop.rectangle.fill"
-        case .bottoms: return "figure.walk"
-        case .onePiece: return "figure.dress.line"
-        case .setup: return "person.fill"
+        case .bag: return "navigatebar_bags"
+        case .shoes: return "navigatebar_shoes"
+        case .tops: return "navigatebar_tops"
+        case .accessory: return "navigatebar_accessories"
+        case .outer: return "navigatebar_outer"
+        case .bottoms: return "navigatebar_bottoms"
+        case .onePiece: return "navigatebar_onepieces"
+        case .setup: return "navigatebar_setup"
         }
     }
 }

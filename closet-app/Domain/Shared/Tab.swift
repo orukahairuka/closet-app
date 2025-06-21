@@ -14,7 +14,7 @@ enum Tab: CaseIterable {
         switch self {
         case .closet: return "tshirt.fill"
         case .weather: return "cloud.sun.fill"
-        case .add: return "square.grid.2x2.fill"
+        case .add: return "list.bullet"
         }
     }
 

@@ -85,7 +85,7 @@ struct SetBuilderView: View {
                             },
                             label: {
                                 HStack {
-                                    Image(systemName: iconName(for: category))
+                                    Image(iconName(for: category))
                                         .frame(width: 20)
 
                                     Text(category.displayName)
@@ -94,7 +94,7 @@ struct SetBuilderView: View {
                                     Spacer()
 
                                     Image(systemName: expandedCategories.contains(category) ? "chevron.down" : "chevron.right")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(.black)
                                         .font(.subheadline)
                                 }
                                 .contentShape(Rectangle()) // ラベル全体タップ可能
@@ -130,14 +130,14 @@ struct SetBuilderView: View {
     // カテゴリ用アイコン
     private func iconName(for category: Category) -> String {
         switch category {
-        case .bag: return "bag.fill"
-        case .shoes: return "shoe.fill"
-        case .tops: return "tshirt.fill"
-        case .accessory: return "circle.hexagongrid.fill"
-        case .outer: return "person.crop.rectangle.fill"
-        case .bottoms: return "figure.walk"
-        case .onePiece: return "figure.dress.line"
-        case .setup: return "person.fill"
+        case .bag: return "navigatebar_bags"
+        case .shoes: return "navigatebar_shoes"
+        case .tops: return "navigatebar_tops"
+        case .accessory: return "navigatebar_accessories"
+        case .outer: return "navigatebar_outer"
+        case .bottoms: return "navigatebar_bottoms"
+        case .onePiece: return "navigatebar_onepieces"
+        case .setup: return "navigatebar_setup"
         }
     }
 }
