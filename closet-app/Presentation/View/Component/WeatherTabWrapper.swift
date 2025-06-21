@@ -16,22 +16,20 @@ public struct WeatherTabWrapper: View {
     @State private var isWeatherVisible = false
 
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                WeatherView(viewModel: weatherViewModel, isVisible: $isWeatherVisible)
-                    .frame(height: 300)
-                    .padding(.top, 50)
-                
-                if let weather = weatherViewModel.weatherInfo {
-                    CoordinateSuggestionView(
-                        viewModel: CoordinateSuggestionViewModel(
-                            items: closetItems.map { $0.toEntity() },
-                            weather: weather
-                        )
+        VStack(spacing: 0) { // スペーシングを0に設定
+            WeatherView(viewModel: weatherViewModel, isVisible: $isWeatherVisible)
+                .frame(height: 100) // 高さを少し減らして上部余白を削減
+                .padding(.top, 0) // 上部パディングを削除
+                .padding(.bottom, 100)
+
+            if let weather = weatherViewModel.weatherInfo {
+                CoordinateSuggestionView(
+                    viewModel: CoordinateSuggestionViewModel(
+                        items: closetItems.map { $0.toEntity() },
+                        weather: weather
                     )
-                }
+                )
             }
-            .padding(.bottom, 80)
         }
         .onAppear {
             isWeatherVisible = false
@@ -42,4 +40,3 @@ public struct WeatherTabWrapper: View {
         }
     }
 }
-
