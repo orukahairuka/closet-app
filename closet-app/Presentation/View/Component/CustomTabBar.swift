@@ -24,18 +24,18 @@ struct CustomTabBar: View {
                     }) {
                         VStack(spacing: 4) {
                             ZStack {
-                                if selectedTab == tab {
-                                    Circle()
-                                        .fill(Color.white.opacity(0.15))
-                                        .frame(width: 44, height: 44)
-                                        .shadow(color: .white.opacity(0.4), radius: 4)
-                                        .matchedGeometryEffect(id: "circle", in: animation)
-                                }
+                                Circle()
+                                    .fill(selectedTab == tab ? Color.white.opacity(0.15) : Color.clear)
+                                    .frame(width: 44, height: 44)
+                                    .shadow(color: selectedTab == tab ? Color.white.opacity(0.4) : .clear, radius: 4)
+
 
                                 Image(systemName: tab.icon)
                                     .font(.system(size: 20, weight: .medium))
                                     .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.7))
                             }
+
+
                             Text(tab.title)
                                 .font(.caption2)
                                 .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.7))
@@ -58,3 +58,4 @@ struct CustomTabBar: View {
         .padding(.bottom, 12)
     }
 }
+
