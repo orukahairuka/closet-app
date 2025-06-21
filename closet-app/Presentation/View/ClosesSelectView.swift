@@ -51,10 +51,11 @@ struct CloseSelectView: View {
     // 個別のタブアイテム
     private func categoryTabItem(category: Category) -> some View {
         VStack {
-            Image(systemName: categoryIcon(for: category))
+            Image(categoryIcon(for: category))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 24, height: 24)
+
 
             Text(category.displayName)
                 .font(.caption)
@@ -111,14 +112,14 @@ struct CloseSelectView: View {
 
     private func categoryIcon(for category: Category) -> String {
         switch category {
-        case .bag: return "bag.fill"
-        case .shoes: return "shoe.fill"
-        case .tops: return "tshirt.fill"
-        case .accessory: return "circle.hexagongrid.fill"
-        case .outer: return "person.crop.rectangle.fill"
-        case .bottoms: return "figure.walk"
-        case .onePiece: return "figure.dress.line"
-        case .setup: return "person.fill"
+        case .bag: return "navigaitonbar_bags"
+        case .shoes: return "navigaitonbar_shoes"
+        case .tops: return "navigaitonbar_tops"
+        case .accessory: return "navigaitonbar_accessories"
+        case .outer: return "navigaitonbar_outer"
+        case .bottoms: return "navigaitonbar_bottoms"
+        case .onePiece: return "navigaitonbar_onepiece"
+        case .setup: return "navigaitonbar_setup"
         }
     }
 }
