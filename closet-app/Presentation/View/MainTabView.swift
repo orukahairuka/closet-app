@@ -31,7 +31,8 @@ struct MainTabView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .animation(.easeInOut(duration: 0.25), value: selectedTab)
 
-                CustomTabBar(selectedTab: $selectedTab, animation: animation)
+                CustomTabBarView(selectedTab: $selectedTab, animation: animation)
+
 
                 fabMenu
                     .padding(.bottom, 90)
