@@ -10,8 +10,6 @@ import SwiftUI
 struct CoordinateSuggestionView: View {
     @ObservedObject var viewModel: CoordinateSuggestionViewModel
 
-    @State private var currentAdvice: String = ""
-
     var body: some View {
         ZStack(alignment: .top) {
             // キャラクターアニメーション部分（下に配置）
