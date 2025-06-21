@@ -50,7 +50,7 @@ struct CustomTabBar: View {
         .padding(.vertical, 12)
         .background(
             Color.clear
-                .modifier(SunsetPurpleTabBarBackgroundModifier())
+                .modifier(PurpleTabBarBackgroundModifier()) // ← こっちに変更
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: .black.opacity(0.7), radius: 2, x: 0, y: 2)
         )
