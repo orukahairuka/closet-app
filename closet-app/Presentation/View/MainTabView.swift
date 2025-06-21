@@ -94,7 +94,7 @@ struct MainTabView: View {
         case .weather:
             WeatherTabWrapper(closetItems: closetItems)
         case .add:
-            SetsPreviewView()
+            OutfitSpotlightMockView()
         }
     }
 
