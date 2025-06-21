@@ -21,7 +21,7 @@ public struct WeatherTabWrapper: View {
                 WeatherView(viewModel: weatherViewModel, isVisible: $isWeatherVisible)
                     .frame(height: 300)
                     .padding(.top, 50)
-
+                
                 if let weather = weatherViewModel.weatherInfo {
                     CoordinateSuggestionView(
                         viewModel: CoordinateSuggestionViewModel(
