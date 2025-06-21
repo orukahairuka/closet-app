@@ -6,28 +6,36 @@
 //
 
 import Foundation
+import Combine
 
-final class CoordinateSuggestionViewModel: ObservableObject {
-    @Published var suggestedCoordinates: [SuggestedCoordinate] = []
-    @Published var clothingLevel: ClothingLevel = .normal
-
-    private let allItems: [ClosetItemEntity]
+class CoordinateSuggestionViewModel: ObservableObject {
+    private let useCase = SuggestCoordinateUseCase()
+    private let items: [ClosetItemEntity]
     private let weather: WeatherEntity
 
+    @Published var suggestedCoordinates: [SuggestedCoordinate] = []
+    @Published var aiAdvice: String = "読み込み中..."
+    @Published var isLoading: Bool = false
+
     init(items: [ClosetItemEntity], weather: WeatherEntity) {
-        self.allItems = items
+        self.items = items
         self.weather = weather
-        suggest()
+
+        loadSuggestions()
+        loadAIAdvice()
     }
 
-    func suggest() {
-        clothingLevel = ClothingLevelUseCase().execute(temperature: weather.temperature)
-        suggestedCoordinates = SuggestCoordinateUseCase().execute(
-            items: allItems,
-            weather: weather,
-            maxCount: 10
-        )
-        print("提案されたコーデ数: \(suggestedCoordinates.count)")  // ← ここ
+    private func loadSuggestions() {
+        suggestedCoordinates = useCase.execute(items: items, weather: weather)
     }
 
+    private func loadAIAdvice() {
+        isLoading = true
+
+        Task { @MainActor in
+            let advice = await useCase.getWeatherAdvice(weather: weather)
+            self.aiAdvice = advice
+            self.isLoading = false
+        }
+    }
 }

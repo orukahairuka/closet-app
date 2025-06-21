@@ -11,67 +11,65 @@ struct CoordinateSuggestionView: View {
     @ObservedObject var viewModel: CoordinateSuggestionViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // 服装レベル（ドットグラデ）
-            Text("服装レベルは……")
-                .font(.headline)
+        ZStack(alignment: .top) {
+            // キャラクターアニメーション部分（下に配置）
+            LottieView(animationName: "navigator", loopMode: .playOnce)
+                .frame(height: 270)
+                .padding(.horizontal, 24)
+                .padding(.top, 140) // キャラクターの表示位置を下げる
 
-            HStack(spacing: 8) {
-                ForEach(1...5, id: \.self) { level in
-                    Circle()
-                        .fill(color(for: level, selected: viewModel.clothingLevel.rawValue))
-                        .frame(width: 14, height: 14)
+            // アドバイスの吹き出し部分（上に配置）
+            VStack(alignment: .leading, spacing: 15) {
+                HStack(spacing: 10) {
+                    Image(systemName: "lightbulb.fill")
+                        .foregroundColor(.purple)
+                        .font(.system(size: 18))
+                    Text("今日の服装アドバイス")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                }
+                .padding(.horizontal, 16)
+
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 20)
+                } else {
+                    SpeechBubble(text: viewModel.aiAdvice)
+                        .padding(.horizontal, 12)
                 }
             }
-
-            // 横スクロールでコーデ提案表示
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 24) {
-                    ForEach(viewModel.suggestedCoordinates) { coordinate in
-                        VStack(spacing: 8) {
-
-
-                            ForEach(coordinate.items, id: \.id) { item in
-                                ClosetCardView(item: item)
-                                    .frame(height: 150) // 👈 追加して表示保証
-                                    .padding()
-                            }
-                        }
-                        .padding()
-                        .background(Color.yellow.opacity(0.2)) // 👈 確認用
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .frame(width: 240)
-                    }
-
-                }
-                .padding(.horizontal)
-            }
-
-            // 再提案ボタン
-            Button("別のコーデを提案する") {
-                viewModel.suggest()
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(.top, 16)
+            .padding(.horizontal, 8)
+            .padding(.top, 12)
         }
-        .padding(.vertical)
+        .frame(maxHeight: 350) // 全体の高さを制限
     }
+}
 
-    private func color(for level: Int, selected: Int) -> Color {
-        guard level <= selected else { return .white }
-        switch selected {
-        case 1, 2: return .blue
-        case 3: return .green
-        case 4: return .orange
-        case 5: return .red
-        default: return .gray
-        }
-    }
+struct SpeechBubble: View {
+    var text: String
 
-    private func patternLabel(for pattern: CoordinatePattern) -> String {
-        switch pattern {
-        case .topBottomShoes: return "トップス＋ボトムス＋シューズ"
-        case .onepieceShoes: return "ワンピース＋シューズ"
+    var body: some View {
+        VStack(spacing: 0) {
+            // 吹き出し本体
+            Text(text)
+                .foregroundColor(.black)
+                .font(.body)
+                .lineSpacing(4)
+                .padding(18)
+                .background(Color(.systemGray6))
+                .cornerRadius(18)
+                .shadow(color: .gray.opacity(0.25), radius: 5, x: 0, y: 3)
+
+            // 三角形
+            Rectangle()
+                .fill(Color(.systemGray6))
+                .frame(width: 16, height: 16)
+                .rotationEffect(.degrees(45))
+                .offset(y: -8)
+                .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 2)
         }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom, 8)
     }
 }

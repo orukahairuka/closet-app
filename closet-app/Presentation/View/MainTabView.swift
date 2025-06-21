@@ -15,7 +15,7 @@ enum FullScreenPage {
 }
 
 struct MainTabView: View {
-    @State private var selectedTab: Tab = .closet
+    @State private var selectedTab: Tab = .weather
     @Namespace private var animation
     @Query private var closetItems: [ClosetItemModel]
     @State private var allSets: [CoordinateSetModel] = []
@@ -94,7 +94,7 @@ struct MainTabView: View {
         case .weather:
             WeatherTabWrapper(closetItems: closetItems)
         case .add:
-            SetsPreviewView()
+            OutfitSpotlightMockView()
         }
     }
 
