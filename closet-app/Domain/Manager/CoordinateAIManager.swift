@@ -10,16 +10,6 @@ import SwiftUI
 import GoogleGenerativeAI
 
 
-// CoordinateAIManager.swift
-
-import Foundation
-import SwiftUI
-import GoogleGenerativeAI
-
-
-//テスト用のView
-
-// GeminiResultView.swift
 
 import SwiftUI
 import SwiftData
