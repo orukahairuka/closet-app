@@ -5,6 +5,7 @@
 
 import Foundation
 import GoogleGenerativeAI
+import Combine
 
 struct CoordinateDTO: Codable {
     let id: String
@@ -45,6 +46,7 @@ struct AIResponse: Decodable {
     let recommendations: [AIRecommendation]
 }
 
+
 final class CoordinateAIManager {
     private let fetchWeatherUseCase: FetchCurrentWeatherUseCase
     private let model = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
@@ -75,7 +77,7 @@ final class CoordinateAIManager {
             let response = try await model.generateContent(promptText)
 
             if let rawText = response.text {
-                print("📥 Geminiの返答（生）:\(rawText)")
+                print("📥 Geminiの返答（生）:\n\(rawText)")
             }
 
             let cleanText = response.text?
@@ -138,6 +140,19 @@ final class CoordinateAIManager {
 
         text += "\n※他の文章を含めず、JSONのみを返してください。候補が少なくても1件以上は必ず出力してください。"
         return text
+    }
+}
+
+
+
+final class RecommendationState: ObservableObject {
+    @Published var recommendedSets: [(UUID, String)] = []
+    @Published var lastUpdated: Date? = nil
+    @Published var showPopup: Bool = false
+
+    func shouldUpdateRecommendation() -> Bool {
+        guard let last = lastUpdated else { return true }
+        return Date().timeIntervalSince(last) > 6 * 60 * 60
     }
 }
 
