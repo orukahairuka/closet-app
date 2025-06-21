@@ -34,14 +34,14 @@ struct AddClosetItemView: View {
                     VStack(spacing: 12) {
                         Text("アイテム画像")
                             .font(.headline)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.black)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(.ultraThinMaterial)
                                 .frame(height: 200)
-                                .shadow(color: .white.opacity(0.1), radius: 10)
+                                .shadow(color: .black.opacity(0.1), radius: 10)
 
                             if let image = image {
                                 Image(uiImage: image)
@@ -54,7 +54,7 @@ struct AddClosetItemView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 60, height: 60)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.black.opacity(0.6))
                             }
                         }
 
@@ -62,7 +62,7 @@ struct AddClosetItemView: View {
                             showImagePicker = true
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(.white.opacity(0.3))
+                        .tint(.black.opacity(0.3))
                     }
                     .frame(maxWidth: .infinity)
 
@@ -74,7 +74,7 @@ struct AddClosetItemView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                     }
 
                     // MARK: - 季節
@@ -85,7 +85,7 @@ struct AddClosetItemView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                     }
 
                     // MARK: - URL
@@ -152,7 +152,7 @@ struct AddClosetItemView: View {
             Text(title)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.black)
 
             content()
         }
@@ -160,6 +160,7 @@ struct AddClosetItemView: View {
         .frame(maxWidth: .infinity) // ✅ 横幅を統一
         .background(.ultraThinMaterial)
         .cornerRadius(16)
-        .shadow(color: .white.opacity(0.05), radius: 4)
+        .shadow(color: .black.opacity(0.05), radius: 4)
     }
 }
+//test

@@ -71,7 +71,6 @@ struct CoordinateSuggestionView: View {
     private func patternLabel(for pattern: CoordinatePattern) -> String {
         switch pattern {
         case .topBottomShoes: return "トップス＋ボトムス＋シューズ"
-        case .setupShoes: return "セットアップ＋シューズ"
         case .onepieceShoes: return "ワンピース＋シューズ"
         }
     }
