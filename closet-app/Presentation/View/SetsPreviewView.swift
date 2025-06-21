@@ -29,29 +29,28 @@ struct SetsPreviewView: View {
                         ForEach(allSets) { set in
                             VStack(alignment: .leading, spacing: 12) {
                                 // ✅ アイテム画像（横スクロール）
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
-                                        ForEach(items(for: set).prefix(3), id: \.id) { item in
-                                            if let data = item.imageData,
-                                               let uiImage = UIImage(data: data) {
-                                                Image(uiImage: uiImage)
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(width: 100, height: 140)
-                                                    .clipped()
-                                                    .cornerRadius(12)
-                                                    .background(Color.white)
-                                                    .shadow(radius: 3)
-                                            } else {
-                                                RoundedRectangle(cornerRadius: 12)
-                                                    .fill(Color.gray.opacity(0.3))
-                                                    .frame(width: 100, height: 140)
-                                                    .overlay(Text("No Image").foregroundColor(.white))
-                                            }
+                                HStack(spacing: 12) {
+                                    ForEach(items(for: set).prefix(3), id: \.id) { item in
+                                        if let data = item.imageData,
+                                           let uiImage = UIImage(data: data) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 100, height: 140)
+                                                .clipped()
+                                                .cornerRadius(12)
+                                                .background(Color.white)
+                                                .shadow(radius: 3)
+                                        } else {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(Color.gray.opacity(0.3))
+                                                .frame(width: 100, height: 140)
+                                                .overlay(Text("No Image").foregroundColor(.white))
                                         }
                                     }
-                                    .padding(.horizontal, 8)
                                 }
+                                .padding(.horizontal, 8)
+
 
                                 // ✅ テキスト情報
                                 Text(set.name)
@@ -66,9 +65,6 @@ struct SetsPreviewView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
 
-                                Text("含まれるアイテム数: \(set.itemIDs.count) 点")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
                             }
                             .padding()
                             .background(Color.white)
