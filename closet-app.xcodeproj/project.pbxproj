@@ -10,6 +10,8 @@
 		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
 		3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2F2D3D2E059DE200BBF918 /* Hero */; };
 		3B6304F42E05ACB1002CBD30 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6304F32E05ACB1002CBD30 /* Lottie */; };
+		3BA87AFF2E06273000DD96D2 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA87AFE2E06273000DD96D2 /* GoogleGenerativeAI */; };
+		3BA87B022E06306C00DD96D2 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA87B012E06306C00DD96D2 /* PopupView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +62,9 @@
 			files = (
 				3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */,
 				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
+				3BA87B022E06306C00DD96D2 /* PopupView in Frameworks */,
 				3B6304F42E05ACB1002CBD30 /* Lottie in Frameworks */,
+				3BA87AFF2E06273000DD96D2 /* GoogleGenerativeAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +136,8 @@
 				120138472DFAF27D00659C2A /* Parchment */,
 				3B2F2D3D2E059DE200BBF918 /* Hero */,
 				3B6304F32E05ACB1002CBD30 /* Lottie */,
+				3BA87AFE2E06273000DD96D2 /* GoogleGenerativeAI */,
+				3BA87B012E06306C00DD96D2 /* PopupView */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -219,6 +225,8 @@
 				120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */,
 				3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */,
 				3B6304F22E05ACA4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				3BA87AFD2E06272300DD96D2 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				3BA87B002E06305E00DD96D2 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -611,6 +619,22 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		3BA87AFD2E06272300DD96D2 /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/generative-ai-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
+		3BA87B002E06305E00DD96D2 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -628,6 +652,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B6304F22E05ACA4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		3BA87AFE2E06273000DD96D2 /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BA87AFD2E06272300DD96D2 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
+		};
+		3BA87B012E06306C00DD96D2 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BA87B002E06305E00DD96D2 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
