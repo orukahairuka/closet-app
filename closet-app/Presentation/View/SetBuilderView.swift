@@ -133,11 +133,9 @@ struct SetBuilderView: View {
         case .bag: return "navigatebar_bags"
         case .shoes: return "navigatebar_shoes"
         case .tops: return "navigatebar_tops"
-        case .accessory: return "navigatebar_accessories"
         case .outer: return "navigatebar_outer"
         case .bottoms: return "navigatebar_bottoms"
         case .onePiece: return "navigatebar_onepiece"
-        case .setup: return "navigatebar_setup"
         }
     }
 }

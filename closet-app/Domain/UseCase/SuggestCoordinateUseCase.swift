@@ -10,7 +10,6 @@ import Foundation
 enum CoordinatePattern {
     case topBottomShoes
     case onepieceShoes
-    case setupShoes
 }
 
 struct SuggestedCoordinate: Identifiable {
@@ -36,16 +35,14 @@ final class SuggestCoordinateUseCase {
         let tops = filtered.filter { $0.category == .tops }
         let bottoms = filtered.filter { $0.category == .bottoms }
         let shoes = filtered.filter { $0.category == .shoes }
-        let setups = filtered.filter { $0.category == .setup }
         let onePieces = filtered.filter { $0.category == .onePiece }
 
         var coordinates: [SuggestedCoordinate] = []
 
         for _ in 0..<maxCount {
             let patterns: [CoordinatePattern] = [
-                (!tops.isEmpty && !bottoms.isEmpty && !shoes.isEmpty) ? .topBottomShoes : nil,
-                (!setups.isEmpty && !shoes.isEmpty) ? .setupShoes : nil,
-                (!onePieces.isEmpty && !shoes.isEmpty) ? .onepieceShoes : nil
+                (!tops.isEmpty && !bottoms.isEmpty) ? .topBottomShoes : nil,
+                (!onePieces.isEmpty) ? .onepieceShoes : nil
             ].compactMap { $0 }
 
             guard let selectedPattern = patterns.randomElement() else { continue }
@@ -54,8 +51,7 @@ final class SuggestCoordinateUseCase {
                 switch selectedPattern {
                 case .topBottomShoes:
                     return [tops.randomElement(), bottoms.randomElement(), shoes.randomElement()].compactMap { $0 }
-                case .setupShoes:
-                    return [setups.randomElement(), shoes.randomElement()].compactMap { $0 }
+
                 case .onepieceShoes:
                     return [onePieces.randomElement(), shoes.randomElement()].compactMap { $0 }
                 }
