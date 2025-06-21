@@ -85,7 +85,7 @@ struct SetBuilderView: View {
                             },
                             label: {
                                 HStack {
-                                    Image(systemName: iconName(for: category))
+                                    Image(iconName(for: category))
                                         .frame(width: 20)
 
                                     Text(category.displayName)
