@@ -20,6 +20,8 @@ struct SuggestedCoordinate: Identifiable {
 }
 
 final class SuggestCoordinateUseCase {
+    private let weatherAdviceManager = WeatherAdviceManager()
+
     func execute(
         items: [ClosetItemEntity],
         weather: WeatherEntity,
@@ -68,6 +70,19 @@ final class SuggestCoordinateUseCase {
 
         return coordinates
     }
+
+    func getWeatherAdvice(weather: WeatherEntity) async -> String {
+        do {
+            return try await weatherAdviceManager.getAdviceForWeather(
+                temperature: weather.temperature,
+                condition: weather.condition
+            )
+        } catch {
+            print("❌ 服装アドバイス取得エラー: \(error)")
+            return "今日は気温\(Int(weather.temperature))℃です。季節に合った服装を選びましょう。"
+        }
+    }
+
 
     /// 季節と気温のマッチ度を [0.0, 1.0] で数値化（高いほどその季節に合っている）
     private func seasonMatchScore(season: Season, temperature: Double) -> Double {

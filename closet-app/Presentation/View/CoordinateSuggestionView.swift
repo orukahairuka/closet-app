@@ -12,67 +12,44 @@ struct CoordinateSuggestionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // 服装レベル（ドットグラデ）
-            Text("服装レベルは……")
-                .font(.headline)
+            // AIアドバイスの吹き出し
+            VStack(alignment: .leading, spacing: 8) {
+                Text("今日のコーディネートアドバイス")
+                    .font(.headline)
+                    .padding(.horizontal)
 
-            HStack(spacing: 8) {
-                ForEach(1...5, id: \.self) { level in
-                    Circle()
-                        .fill(color(for: level, selected: viewModel.clothingLevel.rawValue))
-                        .frame(width: 14, height: 14)
-                }
-            }
+                HStack(alignment: .top) {
+                    Image(systemName: "bubble.left.fill")
+                        .foregroundColor(.blue.opacity(0.7))
+                        .font(.title2)
 
-            // 横スクロールでコーデ提案表示
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 24) {
-                    ForEach(viewModel.suggestedCoordinates) { coordinate in
-                        VStack(spacing: 8) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.blue.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                            )
 
-
-                            ForEach(coordinate.items, id: \.id) { item in
-                                ClosetCardView(item: item)
-                                    .frame(height: 150) // 👈 追加して表示保証
-                                    .padding()
-                            }
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .padding()
+                        } else {
+                            Text(viewModel.aiAdvice)
+                                .padding()
+                                .multilineTextAlignment(.leading)
                         }
-                        .padding()
-                        .background(Color.yellow.opacity(0.2)) // 👈 確認用
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .frame(width: 240)
                     }
-
                 }
                 .padding(.horizontal)
             }
+            .padding(.vertical)
 
-            // 再提案ボタン
-            Button("別のコーデを提案する") {
-                viewModel.suggest()
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(.top, 16)
+            LottieView(animationName: "navigator", loopMode: .loop)
+                .frame(height: 200)
+                .padding(.horizontal)
+
         }
         .padding(.vertical)
-    }
-
-    private func color(for level: Int, selected: Int) -> Color {
-        guard level <= selected else { return .white }
-        switch selected {
-        case 1, 2: return .blue
-        case 3: return .green
-        case 4: return .orange
-        case 5: return .red
-        default: return .gray
-        }
-    }
-
-    private func patternLabel(for pattern: CoordinatePattern) -> String {
-        switch pattern {
-        case .topBottomShoes: return "トップス＋ボトムス＋シューズ"
-        case .setupShoes: return "セットアップ＋シューズ"
-        case .onepieceShoes: return "ワンピース＋シューズ"
-        }
     }
 }
