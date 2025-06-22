@@ -104,8 +104,9 @@ struct SetBuilderView: View {
                                 HStack {
                                     Image(iconName(for: category))
                                         .resizable()
-                                        .frame(width: 20, height: 20)
+                                        .frame(width: 40, height: 40)
                                         .foregroundColor(.black)
+                                        .colorMultiply(.black)
 
                                     Text(category.displayName)
                                         .font(.headline)
