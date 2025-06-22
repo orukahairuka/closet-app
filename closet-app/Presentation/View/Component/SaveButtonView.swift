@@ -17,23 +17,28 @@ struct SaveButtonView: View {
 
     var body: some View {
         ZStack {
+            // ✅ 背景の丸いボタン
             RoundedRectangle(cornerRadius: isAnimating ? 46 : 20)
                 .fill(Color.green)
-                .frame(width: isAnimating ? 92 : .infinity, height: 60)
+                .frame(width: isAnimating ? 92 : UIScreen.main.bounds.width - 64, height: 60) // ← 92 or 大きい幅
                 .scaleEffect(submitScale)
+                .animation(.easeInOut(duration: 0.3), value: isAnimating)
                 .onTapGesture {
                     if !isAnimating {
                         startSaving()
                     }
                 }
 
+            // ✅ チェックマーク（保存後）
             Tick(scaleFactor: 0.7)
                 .trim(from: 0, to: taskDone ? 1 : 0)
                 .stroke(style: StrokeStyle(lineWidth: 6, lineCap: .round))
                 .foregroundColor(.white)
                 .frame(width: 36, height: 36)
+                .opacity(isAnimating ? 1 : 0)
                 .animation(.easeOut(duration: 0.3), value: taskDone)
 
+            // ✅ テキスト（通常表示）
             Text(bodyText)
                 .font(.system(size: 20, weight: .bold, design: .monospaced))
                 .foregroundColor(.white)
@@ -41,7 +46,9 @@ struct SaveButtonView: View {
                 .scaleEffect(isAnimating ? 0.7 : 1)
                 .animation(.easeOut(duration: 0.3), value: isAnimating)
         }
+        .frame(maxWidth: .infinity, alignment: .center) // ✅ 中央寄せを強制
     }
+
 
     private func startSaving() {
         toggleIsAnimating()
