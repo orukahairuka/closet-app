@@ -20,6 +20,9 @@ struct AddClosetItemView: View {
     @State private var selectedTPO: TPO = .office
     @State private var showAddSetSheet = false
     @Binding var allSets: [CoordinateSetModel]
+    @State private var showCameraView = false
+    @StateObject private var captureModel = AVCaptureViewModel()
+
 
     var body: some View {
         ScrollView {
@@ -50,12 +53,29 @@ struct AddClosetItemView: View {
                         }
                     }
 
-                    Button("画像を選択") {
-                        showImagePicker = true
+                    HStack {
+                        Spacer()
+
+                        Button("画像を選択") {
+                            showImagePicker = true
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.accentColor)
+
+                        Spacer()
+
+                        Button(action: {
+                            showCameraView = true
+                        }) {
+                            Image(systemName: "camera")
+                                .font(.title)
+                                .foregroundColor(.accentColor)
+                                .padding(8)
+                                .background(Color(.secondarySystemBackground))
+                                .clipShape(Circle())
+                        }
                     }
-                    .buttonStyle(.bordered)
-                    .tint(.accentColor)
-                    .frame(maxWidth: .infinity)
+
                 }
 
                 Divider()
@@ -120,6 +140,13 @@ struct AddClosetItemView: View {
                 try? context.save()
                 allSets.append(newSet)
                 selectedSetID = newSet.id
+            }
+        }
+        .sheet(isPresented: $showCameraView) {
+            NavigationStack {
+                ContentView(captureModel: captureModel) {
+                    showCameraView = false
+                }
             }
         }
     }

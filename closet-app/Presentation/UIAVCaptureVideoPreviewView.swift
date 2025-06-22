@@ -45,9 +45,22 @@ public struct SwiftUIAVCaptureVideoPreviewView: UIViewRepresentable {
 
 struct ContentView: View {
     @ObservedObject var captureModel: AVCaptureViewModel
+    var onClose: () -> Void  // ← 閉じる処理を呼ぶためのクロージャ
 
     var body: some View {
         VStack(spacing: 16) {
+            HStack {
+                Spacer()
+                Button(action: {
+                    onClose()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+            }
+
             if let result = captureModel.resultsText {
                 Text(result)
                     .font(.title2)
@@ -66,6 +79,5 @@ struct ContentView: View {
             }
         }
         .padding()
-        
     }
 }
