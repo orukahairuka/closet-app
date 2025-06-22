@@ -45,13 +45,24 @@ public struct SwiftUIAVCaptureVideoPreviewView: UIViewRepresentable {
 
 struct ContentView: View {
     @ObservedObject var captureModel: AVCaptureViewModel
+    var onClose: () -> Void
+    var onPhotoCaptured: (UIImage) -> Void  // ← 追加！
 
     var body: some View {
         VStack(spacing: 16) {
+            HStack {
+                Spacer()
+                Button(action: { onClose() }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+            }
+
             if let result = captureModel.resultsText {
                 Text(result)
                     .font(.title2)
-                    .foregroundColor(.primary)
             }
 
             if let id = captureModel.identifier,
@@ -64,8 +75,17 @@ struct ContentView: View {
                 SwiftUIAVCaptureVideoPreviewView(captureModel: captureModel)
                     .frame(width: geometry.size.width, height: geometry.size.height)
             }
+
+            Button("📸 撮影して反映") {
+                captureModel.captureStillImage { image in
+                    if let image = image {
+                        onPhotoCaptured(image)  // ← AddClosetItemView へ通知
+                        onClose()               // 閉じる
+                    }
+                }
+            }
+            .padding()
         }
         .padding()
-        
     }
 }

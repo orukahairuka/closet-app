@@ -11,16 +11,72 @@ import Foundation
 import UIKit
 import Vision
 
+extension AVCaptureViewModel {
+
+    func captureStillImage(completion: @escaping (UIImage?) -> Void) {
+        print("📸 captureStillImage called")
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        settings.isHighResolutionPhotoEnabled = true
+
+        // delegate をプロパティに保持
+        let delegate = PhotoCaptureDelegate { [weak self] image in
+            completion(image)
+            self?.photoCaptureDelegate = nil // 解放
+        }
+
+        self.photoCaptureDelegate = delegate
+        photoOutput.capturePhoto(with: settings, delegate: delegate)
+    }
+}
+
+private class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
+    let completion: (UIImage?) -> Void
+
+    init(completion: @escaping (UIImage?) -> Void) {
+        print("🛠 PhotoCaptureDelegate initialized")
+        self.completion = completion
+    }
+
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photo: AVCapturePhoto,
+                     error: Error?) {
+        print("📥 didFinishProcessingPhoto called")
+
+        if let error = error {
+            print("❌ 写真取得エラー: \(error.localizedDescription)")
+        }
+
+        if let data = photo.fileDataRepresentation() {
+            print("📦 データサイズ: \(data.count) bytes")
+            if let image = UIImage(data: data) {
+                print("✅ 画像取得成功")
+                completion(image)
+            } else {
+                print("❌ UIImage変換失敗")
+                completion(nil)
+            }
+        } else {
+            print("❌ dataがnil")
+            completion(nil)
+        }
+
+    }
+}
+
 public class AVCaptureViewModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     public var captureSession = AVCaptureSession()
     private var mlRequest = [VNRequest]()
+
+    private let photoOutput = AVCapturePhotoOutput() // ← ここで持たせる
 
     @Published var identifier: String?
     @Published var confidence: Float?
     @Published var resultsText: String?
     @Published var resultsImage: String? = "sonota"
     @Published var image: UIImage?
+    private var photoCaptureDelegate: PhotoCaptureDelegate? // ✅ ここに移動！
+
 
     public override init() {
         super.init()
@@ -29,21 +85,41 @@ public class AVCaptureViewModel: NSObject, ObservableObject, AVCaptureVideoDataO
     }
 
     func setupSession() {
-        captureSession.beginConfiguration()
-        guard let device = AVCaptureDevice.default(for: .video),
-              let input = try? AVCaptureDeviceInput(device: device),
-              captureSession.canAddInput(input) else { return }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            captureSession.beginConfiguration()
 
-        captureSession.addInput(input)
+            // 入力（カメラ）
+            guard let device = AVCaptureDevice.default(for: .video),
+                  let input = try? AVCaptureDeviceInput(device: device),
+                  captureSession.canAddInput(input) else {
+                captureSession.commitConfiguration()
+                return
+            }
+            captureSession.addInput(input)
 
-        let output = AVCaptureVideoDataOutput()
-        output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "camera.queue"))
-        guard captureSession.canAddOutput(output) else { return }
+            // 出力（リアルタイム映像）
+            let videoOutput = AVCaptureVideoDataOutput()
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "camera.queue"))
+            guard captureSession.canAddOutput(videoOutput) else {
+                captureSession.commitConfiguration()
+                return
+            }
+            captureSession.addOutput(videoOutput)
 
-        captureSession.addOutput(output)
-        captureSession.commitConfiguration()
-        captureSession.startRunning()
+            // ✅ 写真出力（ここ重要）
+            if captureSession.canAddOutput(photoOutput) {
+                captureSession.addOutput(photoOutput)
+                photoOutput.isHighResolutionCaptureEnabled = true // ← 追加！
+            }
+
+            captureSession.commitConfiguration()
+            captureSession.startRunning()
+        }
     }
+
+
+
 
     func setupVision() -> NSError? {
         guard let modelURL = Bundle.main.url(forResource: "TestModel", withExtension: "mlmodelc") else {
@@ -54,11 +130,11 @@ public class AVCaptureViewModel: NSObject, ObservableObject, AVCaptureVideoDataO
             let model = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
             let request = VNCoreMLRequest(model: model) { request, _ in
                 DispatchQueue.main.async {
-                    if let results = request.results {
-                        print("🔍 Visionが結果を返しました: \(results.count)件")
+                    if let results = request.results as? [VNClassificationObservation] {
+                        print("🔍 Vision結果: \(results.map { "\($0.identifier)(\($0.confidence))" })")
                         self.handleResults(results)
                     } else {
-                        print("❌ Vision結果なし")
+                        print("❌ Vision結果変換失敗")
                     }
                 }
             }
@@ -70,11 +146,18 @@ public class AVCaptureViewModel: NSObject, ObservableObject, AVCaptureVideoDataO
         return nil
     }
 
+    private var isProcessing = false
+
+    private var lastVisionRun = Date(timeIntervalSince1970: 0)
+
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        print("📸 フレームが届いた（Cameraから）")
+        let now = Date()
+        guard now.timeIntervalSince(lastVisionRun) > 0.5 else {
+            return // 前回から0.5秒未満ならスキップ
+        }
+        lastVisionRun = now
 
         guard let buffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            print("❌ バッファ取得失敗")
             return
         }
 
@@ -82,13 +165,17 @@ public class AVCaptureViewModel: NSObject, ObservableObject, AVCaptureVideoDataO
         let orientation = CGImagePropertyOrientation.up
         let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation, options: [:])
 
-        if mlRequest.isEmpty {
-            print("❗ mlRequest が空です！Visionが実行されません")
-        } else {
-            print("🧠 Visionリクエスト実行中...")
-            try? handler.perform(self.mlRequest)
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                print("🧠 Visionリクエスト実行中...")
+                try handler.perform(self.mlRequest)
+            } catch {
+                print("❌ Visionエラー:", error)
+            }
         }
     }
+
+
 
 
     private func handleResults(_ results: [Any]) {

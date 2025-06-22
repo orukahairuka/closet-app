@@ -12,7 +12,7 @@ struct WeatherView: View {
     @ObservedObject var viewModel: WeatherViewModel
     @Binding var isVisible: Bool
 
-    private let mockIndoorTemp: Double = 24.5
+    private let mockIndoorTemp: Double = 26.5
 
     var body: some View {
         if let weather = viewModel.weatherInfo {
