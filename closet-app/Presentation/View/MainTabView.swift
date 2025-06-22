@@ -153,7 +153,6 @@ struct MainTabView: View {
                     .shadow(radius: 4)
             }
         }
-        .padding(.bottom, 80) // 👈 少し上に移動（調整可）
     }
 
 }
