@@ -144,11 +144,16 @@ struct AddClosetItemView: View {
         }
         .sheet(isPresented: $showCameraView) {
             NavigationStack {
-                ContentView(captureModel: captureModel) {
-                    showCameraView = false
-                }
+                ContentView(
+                    captureModel: captureModel,
+                    onClose: { showCameraView = false },
+                    onPhotoCaptured: { captured in
+                        image = captured // ← ← ここでAddClosetItemView.imageに反映
+                    }
+                )
             }
         }
+
     }
 
     // Picker用の共通セクション
