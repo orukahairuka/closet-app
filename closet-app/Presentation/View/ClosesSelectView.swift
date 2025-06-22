@@ -54,7 +54,7 @@ struct CloseSelectView: View {
             Image(categoryIcon(for: category))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 24, height: 24)
+                .frame(width: 40, height: 40)
 
             Text(category.displayName)
                 .font(.caption)

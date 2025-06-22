@@ -20,26 +20,40 @@ struct SetBuilderView: View {
     @State private var selectedSeason: Season = .spring
     @State private var selectedTPO: TPO = .school
 
-    private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
+    // グリッド列の定義を調整
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    // カードサイズをさらに小さく調整
+    private let cardWidth: CGFloat = (UIScreen.main.bounds.width - 110) / 3
+    private let cardHeight: CGFloat = 120
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-
+            VStack(alignment: .leading, spacing: 28) {
                 // MARK: - セット名入力
                 TextField("セット名を入力", text: $setName)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
 
+                Divider()
+
                 // MARK: - 季節 / TPO
-                VStack(spacing: 12) {
+                section(title: "季節") {
                     Picker("季節", selection: $selectedSeason) {
                         ForEach(Season.allCases) { season in
                             Text(season.displayName).tag(season)
                         }
                     }
                     .pickerStyle(.segmented)
+                }
 
+                Divider()
+
+                section(title: "TPO") {
                     Picker("TPO", selection: $selectedTPO) {
                         ForEach(TPO.allCases) { tpo in
                             Text(tpo.displayName).tag(tpo)
@@ -47,7 +61,8 @@ struct SetBuilderView: View {
                     }
                     .pickerStyle(.menu)
                 }
-                .padding(.horizontal)
+
+                Divider()
 
                 // MARK: - カテゴリ別の折りたたみ表示
                 ForEach(Category.allCases) { category in
@@ -66,7 +81,7 @@ struct SetBuilderView: View {
                                 }
                             ),
                             content: {
-                                LazyVGrid(columns: columns, spacing: 16) {
+                                LazyVGrid(columns: columns, spacing: 12) {
                                     ForEach(filteredItems) { item in
                                         ClosetCardView(
                                             item: item.toEntity(),
@@ -77,7 +92,9 @@ struct SetBuilderView: View {
                                                 } else {
                                                     selectedItemIDs.insert(item.id)
                                                 }
-                                            }
+                                            },
+                                            customWidth: cardWidth,
+                                            customHeight: cardHeight
                                         )
                                     }
                                 }
@@ -86,16 +103,13 @@ struct SetBuilderView: View {
                             label: {
                                 HStack {
                                     Image(iconName(for: category))
-                                        .frame(width: 20)
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(.black)
+                                        .colorMultiply(.black)
 
                                     Text(category.displayName)
                                         .font(.headline)
-
-                                    Spacer()
-
-                                    Image(systemName: expandedCategories.contains(category) ? "chevron.down" : "chevron.right")
-                                        .foregroundColor(.black)
-                                        .font(.subheadline)
                                 }
                                 .contentShape(Rectangle()) // ラベル全体タップ可能
                             }
@@ -122,9 +136,19 @@ struct SetBuilderView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 100)
             }
-            .padding(.top)
         }
-        .navigationTitle("セット作成")
+    }
+
+    // Picker用の共通セクション
+    @ViewBuilder
+    private func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.headline)
+            content()
+                .pickerStyle(.menu)
+                .tint(.primary)
+        }
     }
 
     // カテゴリ用アイコン
