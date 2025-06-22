@@ -9,12 +9,13 @@
 ![SwiftData](https://img.shields.io/badge/SwiftData-1.0+-purple.svg)
 ![AI](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-red.svg)
 
-**AI駆動のファッションコーディネートアシスタント**
+**朝、時間がないあなたのために！迷わず服を選べるiOSアプリ**
 
-天気情報とAIを活用して、最適なコーディネートを提案する革新的なiOSアプリ
+天気と室内の気温をもとに、AIが最適なコーディネートを提案。  
+あなたのクローゼットをもっと便利に。
 
-[![Demo Video](https://img.shields.io/badge/Demo-Video%20Preview-blue?style=for-the-badge&logo=youtube)](https://example.com/demo)
-[![App Store](https://img.shields.io/badge/App%20Store-Download-green?style=for-the-badge&logo=app-store)](https://apps.apple.com/app/closet-app)
+<!-- [![Demo Video](https://img.shields.io/badge/Demo-Video%20Preview-blue?style=for-the-badge&logo=youtube)](https://example.com/demo) -->
+<!-- [![App Store](https://img.shields.io/badge/App%20Store-Download-green?style=for-the-badge&logo=app-store)](https://apps.apple.com/app/closet-app) -->
 
 </div>
 
@@ -23,7 +24,7 @@
 ### 🤖 AI-Powered Coordination
 - **Google Gemini 1.5 Flash**を活用したインテリジェントなコーディネート提案
 - リアルタイム天気情報と組み合わせた最適化アルゴリズム
-- 季節・TPO・気温・湿度を考慮した高度な推薦システム
+- 季節・TPO・気温・湿度を考慮した服の組み合わせ提案
 
 ### 🌤️ Weather-Responsive Design
 - OpenWeatherMap APIによるリアルタイム天気取得
@@ -37,7 +38,7 @@
 - **Hero**によるスムーズな画面遷移
 
 ### 🎨 Advanced UI/UX
-- ガラスモーフィズムデザイン
+- ガラスモーフィズムを取り入れたモダンなデザイン
 - カスタムタブバーとFABメニュー
 - レスポンシブレイアウト
 - ダークモード対応
@@ -67,13 +68,10 @@ closet-app/
 ## 🛠️ 技術スタック
 
 ### Core Technologies
-- **Swift 5.9** - 最新のSwift言語機能
-- **SwiftUI 5.0** - 宣言的UIフレームワーク
-- **SwiftData** - モダンなデータ永続化
-- **Combine** - リアクティブプログラミング
+- **Swift 5.9** / **SwiftUI 5.0** / **SwiftData** / **Combine**
 
 ### AI & External APIs
-- **Google Generative AI (Gemini 1.5 Flash)** - インテリジェントなコーディネート提案
+- **Google Gemini 1.5 Flash API** - 服装アドバイス & コーデ提案
 - **OpenWeatherMap API** - リアルタイム天気情報
 - **Core Location** - 位置情報ベースの天気取得
 
@@ -81,11 +79,6 @@ closet-app/
 - **Lottie** - 高品質アニメーション
 - **Hero** - スムーズな画面遷移
 - **Parchment** - タブベースナビゲーション
-
-### Development Tools
-- **Xcode 15.0+** - 最新の開発環境
-- **SwiftLint** - コード品質管理
-- **GitHub Actions** - CI/CD自動化
 
 ## 📋 環境要件
 
@@ -200,73 +193,19 @@ main
 
 ### ブランチ命名規則
 - **feature/**: 新機能開発
-- **bugfix/**: バグ修正
+- **fix/**: バグ修正
 - **hotfix/**: 緊急修正
-- **release/**: リリース準備
 
 ### 開発フロー
-1. **develop**ブランチからfeatureブランチを作成
+1. **dev**ブランチからfeatureブランチを作成
 2. 機能開発・テスト完了後、PRを作成
-3. コードレビュー後、**develop**にマージ
+3. コードレビュー後、**dev**にマージ
 4. リリース準備完了後、**main**にマージ
 
-### コミットメッセージ規約
-```
-feat: AI機能の追加
-fix: 天気API接続エラーの修正
-docs: READMEの更新
-style: UIコンポーネントのスタイル調整
-refactor: アーキテクチャの改善
-test: ユニットテストの追加
-```
-
-## 🧪 テスト戦略
-
-### テスト構成
-- **Unit Tests**: ビジネスロジック
-- **Integration Tests**: API統合
-- **UI Tests**: ユーザーインターフェース
-- **Performance Tests**: パフォーマンス検証
-
-### AI テスト
-- **Prompt Testing**: プロンプト品質検証
-- **Response Validation**: AI応答の妥当性確認
-- **Fallback Testing**: エラー時の代替処理
-
 ## 📈 開発ロードマップ
-
-### v1.1.0 (Q1 2024)
-- [ ] より高度なAI推奨アルゴリズム
-- [ ] ユーザー行動分析の強化
-- [ ] パフォーマンス最適化
-
-### v1.2.0 (Q2 2024)
-- [ ] ソーシャル機能の追加
-- [ ] クラウド同期
-- [ ] 複数デバイス対応
-
-### v2.0.0 (Q3 2024)
-- [ ] AR試着機能
-- [ ] 音声アシスタント
-- [ ] 高級ブランド連携
-
-## 🤝 コントリビューション
-
-### 開発者向けガイドライン
-1. **Fork** リポジトリ
-2. **Feature branch** を作成 (`git checkout -b feature/AmazingFeature`)
-3. **Commit** 変更 (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** ブランチ (`git push origin feature/AmazingFeature`)
-5. **Pull Request** を作成
-
-### コード品質
-- **SwiftLint** ルールの遵守
-- **SwiftFormat** による自動フォーマット
-- **Documentation** の充実
-
-## 📄 ライセンス
-
-このプロジェクトは **MIT License** の下で公開されています。詳細は [LICENSE](LICENSE) ファイルを参照してください。
+- 機械学習でカテゴリ判別を実現
+- AI推奨のパーソナライズ力強化
+- ユーザーの暮らしや歴史に基づく自動レコメンド
 
 ## 🙏 謝辞
 
@@ -276,18 +215,5 @@ test: ユニットテストの追加
 
 ## 📞 サポート
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/closet-app/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/closet-app/discussions)
-- **Email**: support@closet-app.com
-
----
-
-<div align="center">
-
-**Made with ❤️ and AI by the Closet App Team**
-
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/closet-app?style=social)](https://github.com/yourusername/closet-app)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/closet-app?style=social)](https://github.com/yourusername/closet-app)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/closet-app)](https://github.com/yourusername/closet-app/issues)
-
-</div>
+- **Issues**: [GitHub Issues](https://github.com/orukahairuka/closet-app/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/orukahairuka/closet-app/discussions)
