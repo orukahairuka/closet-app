@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct BleTemperatureView: View {
-    @StateObject private var viewModel = BleTemperatureViewModel()
-
+    @StateObject private var viewModel = BleTemperatureListenerViewModel()
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("🌡️ 温度受信テスト")
