@@ -23,6 +23,8 @@
 
 - **URL**: [GitHub TestFlight](https://testflight.apple.com/join/RdwWqy6U)
 
+
+
 ## 🚀 特徴
 
 ### 🤖 AI-Powered Coordination
