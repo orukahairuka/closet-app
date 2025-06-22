@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		120138482DFAF27D00659C2A /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 120138472DFAF27D00659C2A /* Parchment */; };
+		129B9ECA2E079FBE006621E4 /* FloatingButton in Frameworks */ = {isa = PBXBuildFile; productRef = 129B9EC92E079FBE006621E4 /* FloatingButton */; };
 		3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2F2D3D2E059DE200BBF918 /* Hero */; };
 		3B6304F42E05ACB1002CBD30 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6304F32E05ACB1002CBD30 /* Lottie */; };
 		3BA87AFF2E06273000DD96D2 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA87AFE2E06273000DD96D2 /* GoogleGenerativeAI */; };
@@ -75,6 +76,7 @@
 				3B2F2D3E2E059DE200BBF918 /* Hero in Frameworks */,
 				120138482DFAF27D00659C2A /* Parchment in Frameworks */,
 				3B6304F42E05ACB1002CBD30 /* Lottie in Frameworks */,
+				129B9ECA2E079FBE006621E4 /* FloatingButton in Frameworks */,
 				3BA87AFF2E06273000DD96D2 /* GoogleGenerativeAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +150,7 @@
 				3B2F2D3D2E059DE200BBF918 /* Hero */,
 				3B6304F32E05ACB1002CBD30 /* Lottie */,
 				3BA87AFE2E06273000DD96D2 /* GoogleGenerativeAI */,
+				129B9EC92E079FBE006621E4 /* FloatingButton */,
 			);
 			productName = "closet-app";
 			productReference = 3BB8D3CC2DF9B07600D4F900 /* closet-app.app */;
@@ -236,6 +239,7 @@
 				3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */,
 				3B6304F22E05ACA4002CBD30 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				3BA87AFD2E06272300DD96D2 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				129B9EC82E079FBE006621E4 /* XCRemoteSwiftPackageReference "FloatingButton" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BB8D3CD2DF9B07600D4F900 /* Products */;
@@ -618,6 +622,14 @@
 				kind = branch;
 			};
 		};
+		129B9EC82E079FBE006621E4 /* XCRemoteSwiftPackageReference "FloatingButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/FloatingButton.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		3B2F2D3C2E059DCD00BBF918 /* XCRemoteSwiftPackageReference "Hero" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/HeroTransitions/Hero.git";
@@ -649,6 +661,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 120138452DFAF21D00659C2A /* XCRemoteSwiftPackageReference "Parchment" */;
 			productName = Parchment;
+		};
+		129B9EC92E079FBE006621E4 /* FloatingButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 129B9EC82E079FBE006621E4 /* XCRemoteSwiftPackageReference "FloatingButton" */;
+			productName = FloatingButton;
 		};
 		3B2F2D3D2E059DE200BBF918 /* Hero */ = {
 			isa = XCSwiftPackageProductDependency;

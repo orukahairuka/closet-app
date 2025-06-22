@@ -7,6 +7,8 @@
 
 import SwiftUI
 import _SwiftData_SwiftUI
+import FloatingButton
+
 
 enum FullScreenPage {
     case none
@@ -20,6 +22,8 @@ struct MainTabView: View {
     @Query private var closetItems: [ClosetItemModel]
     @State private var allSets: [CoordinateSetModel] = []
     @State private var fullScreenPage: FullScreenPage = .none
+
+    @State private var isFabMenuOpen: Bool = false
 
     var body: some View {
         // ✅ NavigationStack を全体に追加（遷移が効くように）
@@ -35,8 +39,8 @@ struct MainTabView: View {
 
 
                 fabMenu
-                    .padding(.bottom, 90)
-                    .padding(.trailing, 24)
+                    .padding(.bottom, 80)
+                    .padding(.trailing, 6)
 
                 // ポップアップ表示エリア
                 if fullScreenPage != .none {
@@ -118,42 +122,78 @@ struct MainTabView: View {
     }
 
     private var fabMenu: some View {
-        VStack(spacing: 16) {
-            // セット作成ボタン
+        // メインボタンの見た目を定義
+        let mainButton = AnyView(
             Button(action: {
-                withAnimation {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    isFabMenuOpen.toggle()
+                }
+            }) {
+                Image(systemName: isFabMenuOpen ? "xmark" : "plus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.white)
+                    .rotationEffect(.degrees(isFabMenuOpen ? 45 : 0))
+                    .animation(.easeInOut(duration: 0.3), value: isFabMenuOpen)
+            }
+                .padding(20)
+                .background(Circle().fill(Color.purple))
+                .shadow(radius: 4)
+        )
+
+        // サブボタンの配列を定義
+        let subButtons = [
+            // セット作成ボタン
+            AnyView(createSubButton(imageName: "square.grid.2x2.fill", label: "セット", action: {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    isFabMenuOpen = false
                     fullScreenPage = .buildSet
                 }
-            }) {
-                Image(systemName: "square.grid.2x2.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.white)
-                    .padding(20)
-                    .background(Circle().fill(Color.purple))
-                    .shadow(radius: 4)
-            }
-            .padding(.bottom, 10)
-
-
+            })),
             // アイテム追加ボタン
-            Button(action: {
-                withAnimation {
+            AnyView(createSubButton(imageName: "tshirt", label: "アイテム", action: {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    isFabMenuOpen = false
                     fullScreenPage = .addItem
                 }
-            }) {
-                Image(systemName: "plus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.white)
-                    .padding(20)
-                    .background(Circle().fill(Color.purple))
-                    .shadow(radius: 4)
-            }
-        }
+            }))
+        ]
+
+        return FloatingButton(
+            mainButtonView: mainButton,
+            buttons: subButtons,
+            isOpen: $isFabMenuOpen
+        )
+        .straight()
+        .direction(.top)
+        .spacing(16)
+        .initialScaling(0.0)     // ✅ 閉じた状態でのスケール（0で非表示）
+        .initialOpacity(0.0)     // ✅ 閉じた状態での透明度（0で非表示）
+        .animation(.easeInOut(duration: 0.3))  // ✅ アニメーション設定
     }
 
-}
+    // サブボタンのビューを生成するヘルパー関数（修正版）
+    private func createSubButton(imageName: String, label: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
 
+                Text(label)
+                    .font(.subheadline.bold())
+                    .minimumScaleFactor(0.8)
+            }
+            .foregroundColor(.white)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 20)
+            .background(
+                Capsule()
+                    .fill(Color.purple.opacity(0.8))
+            )
+            .shadow(radius: 4)
+        }
+    }
+}
