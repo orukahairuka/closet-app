@@ -19,7 +19,7 @@
 
 </div>
 
-# TestFlight
+**_TestFlight_**
 
 - **URL**: [GitHub TestFlight](https://testflight.apple.com/join/RdwWqy6U)
 
