@@ -21,7 +21,7 @@
 
 # **_🧪TestFlight_**
 
-- ### URL👉 : [GitHub TestFlight](https://testflight.apple.com/join/RdwWqy6U)
+- **URL👉** : [GitHub TestFlight](https://testflight.apple.com/join/RdwWqy6U)
 <br><br>
   
   
