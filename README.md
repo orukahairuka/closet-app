@@ -18,8 +18,9 @@
 <!-- [![App Store](https://img.shields.io/badge/App%20Store-Download-green?style=for-the-badge&logo=app-store)](https://apps.apple.com/app/closet-app) -->
 
 </div>
-## TestFlight
-- [TestFlight](https://testflight.apple.com/join/RdwWqy6U)
+**TestFlight**  
+[TestFlight](https://testflight.apple.com/join/RdwWqy6U)
+
 
 ## 🚀 特徴
 
