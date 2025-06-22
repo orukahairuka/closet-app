@@ -12,11 +12,18 @@ struct ClosetCardView: View {
     var isSelected: Bool = false       // ← 追加
     var onTap: (() -> Void)? = nil   // ← オプショナルに
 
-    
-    // 横2列に並べる用サイズ
-    private let cardWidth: CGFloat = (UIScreen.main.bounds.width / 2) - 24
-    private let cardHeight: CGFloat = 220
-    
+    // カスタムサイズ指定のためのプロパティ追加
+    var customWidth: CGFloat?
+    var customHeight: CGFloat?
+
+    // デフォルトサイズ（指定がない場合に使用）
+    private var cardWidth: CGFloat {
+        customWidth ?? (UIScreen.main.bounds.width / 2) - 24
+    }
+    private var cardHeight: CGFloat {
+        customHeight ?? 220
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             // 背景＋画像
@@ -67,9 +74,9 @@ struct ClosetCardView: View {
                 .frame(width: cardWidth, height: cardHeight)
             }
         }
-        
+
         .frame(width: cardWidth, height: cardHeight)
-        
+
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 4)

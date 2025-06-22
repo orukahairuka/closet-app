@@ -20,7 +20,16 @@ struct SetBuilderView: View {
     @State private var selectedSeason: Season = .spring
     @State private var selectedTPO: TPO = .school
 
-    private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
+    // グリッド列の定義を調整
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    // カードサイズをさらに小さく調整
+    private let cardWidth: CGFloat = (UIScreen.main.bounds.width - 110) / 3
+    private let cardHeight: CGFloat = 120
 
     var body: some View {
         ScrollView {
@@ -72,7 +81,7 @@ struct SetBuilderView: View {
                                 }
                             ),
                             content: {
-                                LazyVGrid(columns: columns, spacing: 16) {
+                                LazyVGrid(columns: columns, spacing: 12) {
                                     ForEach(filteredItems) { item in
                                         ClosetCardView(
                                             item: item.toEntity(),
@@ -83,7 +92,9 @@ struct SetBuilderView: View {
                                                 } else {
                                                     selectedItemIDs.insert(item.id)
                                                 }
-                                            }
+                                            },
+                                            customWidth: cardWidth,
+                                            customHeight: cardHeight
                                         )
                                     }
                                 }
