@@ -145,7 +145,7 @@ struct MainTabView: View {
         // サブボタンの配列を定義
         let subButtons = [
             // セット作成ボタン
-            AnyView(createSubButton(imageName: "square.grid.2x2.fill", label: "セット", action: {
+            AnyView(createSubButton(imageName: "closet-set", label: "セット", action: {
                 withAnimation(.easeInOut(duration: 0.25)) {
                     isFabMenuOpen = false
                     fullScreenPage = .buildSet
@@ -177,7 +177,7 @@ struct MainTabView: View {
     private func createSubButton(imageName: String, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 8) {
-                Image(systemName: imageName)
+                imageView(for: imageName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
@@ -196,4 +196,14 @@ struct MainTabView: View {
             .shadow(radius: 4)
         }
     }
+
+    // ✅ システムアイコンかどうか判定して Image を切り替える
+    private func imageView(for imageName: String) -> Image {
+        if UIImage(systemName: imageName) != nil {
+            return Image(systemName: imageName)
+        } else {
+            return Image(imageName)
+        }
+    }
+
 }
