@@ -38,27 +38,33 @@ struct MainTabView: View {
                     .padding(.bottom, 90)
                     .padding(.trailing, 24)
 
+                // ポップアップ表示エリア
                 if fullScreenPage != .none {
                     Color.black.opacity(0.2)
                         .ignoresSafeArea()
                         .transition(.opacity)
                         .zIndex(1)
 
-                    VStack(alignment: .trailing, spacing: 0) {
+                    VStack(spacing: 0) {
                         // 閉じるボタン
-                        HStack {
+                        HStack(alignment: .center) {
+                            Text(titleFor(page: fullScreenPage))
+                                .font(.largeTitle.bold())
+                                .foregroundStyle(.primary)
+
                             Spacer()
+
                             Button(action: {
                                 withAnimation(.easeInOut(duration: 0.25)) {
                                     fullScreenPage = .none
                                 }
                             }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .padding()
+                                    .font(.system(size: 32))
+                                    .foregroundColor(.red.opacity(0.8))
                             }
                         }
+                        .padding(.bottom, 16)
 
                         Group {
                             switch fullScreenPage {
@@ -70,19 +76,32 @@ struct MainTabView: View {
                                 EmptyView()
                             }
                         }
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 24)
-                                .fill(.ultraThinMaterial)
-                                .shadow(radius: 10)
-                        )
-                        .padding(.horizontal)
                     }
-                    .transition(.move(edge: .trailing))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 24)
+                            .fill(Color(.systemBackground))
+                            .shadow(radius: 10)
+                    )
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 90)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
                     .zIndex(2)
                 }
             }
             .ignoresSafeArea(.keyboard)
+        }
+    }
+
+    // 表示するページに応じたタイトルを返すヘルパー関数
+    private func titleFor(page: FullScreenPage) -> String {
+        switch page {
+        case .addItem:
+            return "アイテム追加"
+        case .buildSet:
+            return "セット作成"
+        case .none:
+            return ""
         }
     }
 
@@ -134,7 +153,6 @@ struct MainTabView: View {
                     .shadow(radius: 4)
             }
         }
-        .padding(.bottom, 80) // 👈 少し上に移動（調整可）
     }
 
 }

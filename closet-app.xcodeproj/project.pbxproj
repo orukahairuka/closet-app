@@ -36,9 +36,22 @@
 		3BB8D3E32DF9B07B00D4F900 /* closet-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "closet-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3B36A0B12E07789E00624D3C /* Exceptions for "closet-app" folder in "closet-app" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3BB8D3CB2DF9B07600D4F900 /* closet-app */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3BB8D3CE2DF9B07600D4F900 /* closet-app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3B36A0B12E07789E00624D3C /* Exceptions for "closet-app" folder in "closet-app" target */,
+			);
 			path = "closet-app";
 			sourceTree = "<group>";
 		};
@@ -430,6 +443,8 @@
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "closet-app/Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "bluetoothを使います";
 				INFOPLIST_KEY_NSCameraUsageDescription = "カメラを使ってもいいですか？";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -460,6 +475,8 @@
 				DEVELOPMENT_TEAM = 922N7TF68N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "closet-app/Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "bluetoothを使います";
 				INFOPLIST_KEY_NSCameraUsageDescription = "カメラを使ってもいいですか？";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
