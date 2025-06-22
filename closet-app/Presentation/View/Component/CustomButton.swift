@@ -30,10 +30,12 @@ struct CustomButton: View {
                     .frame(width: 190, height: 190)
 
                 // アイコン（白系）
-                Image(systemName: Tab.weather.icon)
-                    .font(.system(size: 50, weight: .bold))
+                Image("weather_robot_icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 125, height: 125)
                     .foregroundColor(isSelected ? .white : .white.opacity(0.7))
-                    .offset(x: 30, y: -30)
+                    .offset(x: 35, y: -20)
             }
 
 
