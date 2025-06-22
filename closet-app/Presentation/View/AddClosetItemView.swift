@@ -10,7 +10,6 @@ import SwiftData
 
 struct AddClosetItemView: View {
     @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) private var dismiss
 
     @State private var selectedCategory: Category = .tops
     @State private var selectedSeason: Season = .spring
@@ -20,147 +19,139 @@ struct AddClosetItemView: View {
     @State private var selectedSetID: UUID? = nil
     @State private var selectedTPO: TPO = .office
     @State private var showAddSetSheet = false
-    @Binding var allSets: [CoordinateSetModel] // ✅ 親Viewからセット情報を受け取る
-
-
+    @Binding var allSets: [CoordinateSetModel]
 
     var body: some View {
-        ZStack {
-            NightGlassBackground()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                // MARK: - 画像選択
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("アイテム画像")
+                        .font(.headline)
+                        .foregroundStyle(.primary)
 
-            ScrollView {
-                VStack(spacing: 28) {
-                    // MARK: - 画像選択
-                    VStack(spacing: 12) {
-                        Text("アイテム画像")
-                            .font(.headline)
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(.secondarySystemBackground))
+                            .frame(height: 200)
 
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(.ultraThinMaterial)
-                                .frame(height: 200)
-                                .shadow(color: .black.opacity(0.1), radius: 10)
-
-                            if let image = image {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 160)
-                                    .cornerRadius(16)
-                            } else {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.black.opacity(0.6))
-                            }
+                        if let image = image {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 180)
+                                .cornerRadius(8)
+                        } else {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.secondary)
                         }
-
-                        Button("画像を選択") {
-                            showImagePicker = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.black.opacity(0.3))
                     }
+
+                    Button("画像を選択") {
+                        showImagePicker = true
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.accentColor)
                     .frame(maxWidth: .infinity)
-
-                    // MARK: - カテゴリ
-                    glassSection(title: "カテゴリ") {
-                        Picker("カテゴリ", selection: $selectedCategory) {
-                            ForEach(Category.allCases) { category in
-                                Text(category.displayName).tag(category)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .foregroundColor(.black)
-                    }
-
-                    // MARK: - 季節
-                    glassSection(title: "季節") {
-                        Picker("季節", selection: $selectedSeason) {
-                            ForEach(Season.allCases) { season in
-                                Text(season.displayName).tag(season)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .foregroundColor(.black)
-                    }
-
-                    // MARK: - URL
-                    glassSection(title: "商品URL") {
-                        TextField("https://example.com", text: $urlText)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                    }
-
-                    glassSection(title: "TPO") {
-                        Picker("TPO", selection: $selectedTPO) {
-                            ForEach(TPO.allCases) { tpo in
-                                Text(tpo.displayName).tag(tpo)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                    }
-
-
-                    SaveButtonView {
-                        let data = image?.jpegData(compressionQuality: 0.8)
-                        let newItem = ClosetItemModel(
-                            imageData: data,
-                            category: selectedCategory,
-                            season: selectedSeason,
-                            productURL: URL(string: urlText),
-                            tpoTag: selectedTPO
-                        )
-
-                        context.insert(newItem)
-
-                        if let selectedID = selectedSetID,
-                           let set = allSets.first(where: { $0.id == selectedID }) {
-                            set.itemIDs.append(newItem.id)
-                        }
-
-                        try? context.save()
-                        dismiss()
-                    }
-                    .frame(height: 60)
-                    .padding(.bottom, 160) // ✅ 下部余白でTabBarを避ける
                 }
-                .sheet(isPresented: $showImagePicker) {
-                    ImagePicker(image: $image)
+
+                Divider()
+
+                // MARK: - カテゴリ
+                section(title: "カテゴリ") {
+                    Picker("カテゴリ", selection: $selectedCategory) {
+                        ForEach(Category.allCases) { category in
+                            Text(category.displayName).tag(category)
+                        }
+                    }
                 }
+
+                Divider()
+
+                // MARK: - 季節
+                section(title: "季節") {
+                    Picker("季節", selection: $selectedSeason) {
+                        ForEach(Season.allCases) { season in
+                            Text(season.displayName).tag(season)
+                        }
+                    }
+                }
+
+                Divider()
+
+                // MARK: - URL
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("商品URL")
+                        .font(.headline)
+                    TextField("https://example.com", text: $urlText)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                }
+
+                Divider()
+
+                // MARK: - TPO
+                section(title: "TPO") {
+                    Picker("TPO", selection: $selectedTPO) {
+                        ForEach(TPO.allCases) { tpo in
+                            Text(tpo.displayName).tag(tpo)
+                        }
+                    }
+                }
+
+                SaveButtonView {
+                    saveItem()
+                }
+                .frame(height: 50)
+                .tint(.accentColor)
+                .padding(.bottom)
             }
-            .navigationTitle("アイテム追加")
-            .sheet(isPresented: $showAddSetSheet) {
-                AddSetSheetView { newSet in
-                    context.insert(newSet)
-                    try? context.save()
-                    allSets.append(newSet)        // ✅ 即反映
-                           selectedSetID = newSet.id     // ✅ 選択更新
-                }
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(image: $image)
+        }
+        .sheet(isPresented: $showAddSetSheet) {
+            AddSetSheetView { newSet in
+                context.insert(newSet)
+                try? context.save()
+                allSets.append(newSet)
+                selectedSetID = newSet.id
             }
-
         }
     }
-    // MARK: - グラス風セクション共通
+
+    // Picker用の共通セクション
     @ViewBuilder
-    private func glassSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+    private func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.black)
-
+                .font(.headline)
             content()
+                .pickerStyle(.menu)
+                .tint(.primary)
         }
-        .padding()
-        .frame(maxWidth: .infinity) // ✅ 横幅を統一
-        .background(.ultraThinMaterial)
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 4)
+    }
+
+    private func saveItem() {
+        let data = image?.jpegData(compressionQuality: 0.8)
+        let newItem = ClosetItemModel(
+            imageData: data,
+            category: selectedCategory,
+            season: selectedSeason,
+            productURL: URL(string: urlText),
+            tpoTag: selectedTPO
+        )
+        context.insert(newItem)
+
+        if let selectedID = selectedSetID,
+           let set = allSets.first(where: { $0.id == selectedID }) {
+            set.itemIDs.append(newItem.id)
+        }
+
+        try? context.save()
     }
 }
-//test
