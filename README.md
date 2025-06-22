@@ -36,7 +36,6 @@
 - 季節・TPO・気温・湿度を考慮した服の組み合わせ提案
 
 ### 🌤️ Weather-Responsive Design
-- OpenWeatherMap APIによるリアルタイム天気取得
 - 室内外の温度差を考慮した着こなし提案
 - 天気予報に基づく事前コーディネート計画
 
@@ -81,7 +80,6 @@ closet-app/
 
 ### AI & External APIs
 - **Google Gemini 1.5 Flash API** - 服装アドバイス & コーデ提案
-- **OpenWeatherMap API** - リアルタイム天気情報
 - **Core Location** - 位置情報ベースの天気取得
 
 ### UI/UX Libraries
