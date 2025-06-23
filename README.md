@@ -1,21 +1,9 @@
 # 👗 Closet App - AI-Powered Fashion Coordination Assistant
 
-<div align="center">
-
-![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)
-![iOS](https://img.shields.io/badge/iOS-17.0+-blue.svg)
-![Xcode](https://img.shields.io/badge/Xcode-15.0+-blue.svg)
-![SwiftUI](https://img.shields.io/badge/SwiftUI-5.0+-green.svg)
-![SwiftData](https://img.shields.io/badge/SwiftData-1.0+-purple.svg)
-![AI](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-red.svg)
-
 **朝、時間がないあなたのために！迷わず服を選べるiOSアプリ**
 
 天気と室内の気温をもとに、AIが最適なコーディネートを提案。  
 あなたのクローゼットをもっと便利に。
-
-<!-- [![Demo Video](https://img.shields.io/badge/Demo-Video%20Preview-blue?style=for-the-badge&logo=youtube)](https://example.com/demo) -->
-<!-- [![App Store](https://img.shields.io/badge/App%20Store-Download-green?style=for-the-badge&logo=app-store)](https://apps.apple.com/app/closet-app) -->
 
 </div>
 
@@ -37,19 +25,12 @@
 
 ### 🌤️ Weather-Responsive Design
 - 室内外の温度差を考慮した着こなし提案
-- 天気予報に基づく事前コーディネート計画
 
 ### 📱 Modern iOS Experience
 - **SwiftUI 5.0**による最新のUI/UX
 - **SwiftData**による高性能ローカルデータ管理
 - **Lottie**アニメーションによる豊かな視覚体験
 - **Hero**によるスムーズな画面遷移
-
-### 🎨 Advanced UI/UX
-- ガラスモーフィズムを取り入れたモダンなデザイン
-- カスタムタブバーとFABメニュー
-- レスポンシブレイアウト
-- ダークモード対応
 
 ## 🏗️ アーキテクチャ
 
@@ -71,16 +52,9 @@ closet-app/
 ### AI Integration Architecture
 - **CoordinateAIManager**: Gemini API統合
 - **Weather Integration**: リアルタイム天気データ
-- **Smart Recommendations**: 多変量分析による最適化
-
-## 🛠️ 技術スタック
-
-### Core Technologies
-- **Swift 5.9** / **SwiftUI 5.0** / **SwiftData** / **Combine**
 
 ### AI & External APIs
 - **Google Gemini 1.5 Flash API** - 服装アドバイス & コーデ提案
-- **Core Location** - 位置情報ベースの天気取得
 
 ### UI/UX Libraries
 - **Lottie** - 高品質アニメーション
@@ -90,7 +64,7 @@ closet-app/
 ## 📋 環境要件
 
 ### 開発環境
-- **Xcode**: 15.0以上
+- **Xcode**: 16.4以上
 - **iOS Deployment Target**: 17.0以上
 - **Swift**: 5.9以上
 - **macOS**: 14.0以上 (開発用)
@@ -139,7 +113,6 @@ struct APIKey {
 ### 2. Weather Integration
 - **Live Weather Data**: リアルタイム天気情報
 - **Indoor/Outdoor Analysis**: 温度差を考慮した提案
-- **Forecast Planning**: 未来の天気に基づく準備
 
 ### 3. Closet Management
 - **Smart Categorization**: AIによる自動分類
@@ -148,41 +121,6 @@ struct APIKey {
 
 ### 4. Advanced UI Features
 - **Glass Morphism**: モダンなガラス効果
-- **Smooth Animations**: 60fps滑らかなアニメーション
-- **Accessibility**: アクセシビリティ対応
-
-## 🤖 AI活用の詳細
-
-### Gemini 1.5 Flash Integration
-```swift
-// 高度なプロンプトエンジニアリング
-struct CoordinatePrompt {
-    let userCondition: UserCondition
-    let availableCoordinates: [CoordinateDTO]
-}
-
-// 多変量分析による最適化
-func fetchAndSend(availableCoordinates: [CoordinateDTO], 
-                 tpo: String, 
-                 season: String) async -> [(UUID, String)]
-```
-
-### 機械学習モデル
-- **TestModel.mlmodel**: Core ML統合
-- **Custom Training**: ユーザーデータによる学習
-- **Real-time Inference**: 高速推論
-
-### データ分析
-- **Weather Correlation**: 天気とファッションの相関分析
-- **User Preference Learning**: ユーザー行動パターン学習
-- **Seasonal Trends**: 季節トレンド分析
-
-## 📊 パフォーマンス指標
-
-- **起動時間**: < 2秒
-- **AI推論速度**: < 500ms
-- **メモリ使用量**: < 100MB
-- **バッテリー効率**: 最適化済み
 
 ## 🔄 ブランチ運用ルール
 
@@ -209,18 +147,5 @@ main
 3. コードレビュー後、**dev**にマージ
 4. リリース準備完了後、**main**にマージ
 
-## 📈 開発ロードマップ
-- 機械学習でカテゴリ判別を実現
-- AI推奨のパーソナライズ力強化
-- ユーザーの暮らしや歴史に基づく自動レコメンド
-
-## 🙏 謝辞
-
-- **Google Gemini Team** - 革新的なAI技術の提供
-- **OpenWeatherMap** - 信頼性の高い天気データ
-- **SwiftUI Community** - 素晴らしいUIフレームワーク
-
-## 📞 サポート
-
-- **Issues**: [GitHub Issues](https://github.com/orukahairuka/closet-app/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/orukahairuka/closet-app/discussions)
+### 謝辞
+このアプリは京都産業大学情報理工学部デジタル制作・研究共創チャレンジプログラムの支援を受けたものである
